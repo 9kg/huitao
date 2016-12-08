@@ -1,0 +1,95 @@
+header.bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .searchbar{
+        flex-shrink: 1;
+        flex-grow: 1;
+        background-color: #fff;
+        padding: .4rem .2rem;
+        margin: 0 -.2rem;
+        .search-input{
+            border: 1px solid #eee;
+            border-radius: .3rem;
+        }
+        .searchbar-cancel{
+            color: #fff;
+            background: #ea5454;
+            border-radius: .3rem;
+            font-size: .7rem;
+        }
+    }
+    .icon-item{
+        flex-shrink: 0;
+        line-height: 1.5rem;
+        font-size: .9rem;
+        width: 2rem;
+        text-align: center;
+        padding: 0;
+        color: #666;
+        .nav-label{
+            display: block;
+            white-space: nowrap;
+            font-size: .5rem;
+            line-height: .7rem;
+        }
+    }
+}
+
+.logo{
+    flex-shrink: 0;
+    width: 3rem;
+    margin: 0;
+    height: 2.2rem;
+    line-height: 2.2rem;
+    color: #ef3232;
+    padding: 0 .3rem;
+    font-style: italic;
+    font-size: .8rem;
+}
+.buttons-tab{
+    padding: 0 4rem;
+}
+
+.content-block{
+    margin: 0;
+    padding: 0;
+}
+.swiper-container {
+    height: 8rem;
+    padding-bottom: 0;
+    .swiper-slide{
+        box-sizing: border-box;
+        overflow: hidden;
+        .banner_item{
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+        }
+    }
+}
+
+.content-block-title{
+    text-align: center;
+    font-weight: bold;
+    margin: 1rem 0 .5rem;
+    &.goods_today_title{
+        .icon{
+            font-weight: normal;
+            color: #f00;
+        }
+    }
+}
+.media-list{
+    ul{
+        &:before{
+            content: none;
+        }
+        .item-media{
+            width: 4rem;
+            img{
+                width: 100%;
+            }
+        }
+    }
+}

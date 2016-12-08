@@ -1,0 +1,20 @@
+.user_img(@len, @left, @top) {
+    width: @len;
+    height: @len;
+    left: @left;
+    top: @top;
+}
+.circle(@len, @color, @left, @top) {
+    width: @len;
+    height: @len;
+    background-color: @color;
+    left: @left;
+    top: @top;
+}
+
+.load_items(@n, @i: 1) when (@i =< @n) {
+        .load_item_@{i} {
+            transition-delay: (@i * 0.02s);
+        }
+    .load_items(@n, (@i + 1));
+}

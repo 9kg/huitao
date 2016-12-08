@@ -1,0 +1,22 @@
+body{
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+}
+textarea {
+    -webkit-appearance: none;
+}
+.page, .bar{
+    background-color: #fff;
+}
+.bar-nav{
+    height: 3.2rem;
+    padding-top: 1rem;
+    & ~ .content {
+        top: 3.2rem;
+    }
+    &.bar-no-border{
+        &:after{
+            content: none;
+        }
+    }
+}

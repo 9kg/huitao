@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="../css/base.css" media="screen">
+</head>
+
+<body>
+    <div class="loading">
+        <div class="loading_box">
+            <i class="loading_circle"></i>
+        </div>
+    </div>
+    <div class="content index_container">
+        <div class="index_header">
+            <h1 class="iconfont icon_logo logo"></h1>
+            <div class="row no-gutter person_info load_item_1">
+                <div class="col-66 base_info" data-link="personal">
+                    <div class="avatar"></div>
+                    <p class="user_name"></p>
+                    <p class="user_id">ID:<span></span></p>
+                </div>
+                <div class="col-33 wallet_info" data-link="wallet">
+                    <p class="wallet_num"></p>
+                    <p class="wallet_deac"><%= a %></p>
+                </div>
+            </div>
+        </div>
+        <div class="index_banner swiper-container load_item_2" data-space-between='10'>
+            <div class="swiper-wrapper">
+
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="index_menu row no-gutter">
+            <div class="col-50 menu_item menu_task load_item_3" data-link="task_list">
+                <span class="iconfont icon_game"></span>
+                <span class="menu_desc"><%= b %></span>
+            </div>
+            <div class="col-50 menu_item menu_share load_item_3" data-link="share">
+                <span class="iconfont icon_share"></span>
+                <span class="menu_desc"><%= c %></span>
+            </div>
+            <div class="col-50 menu_item menu_withdraw load_item_4" data-link="redeem">
+                <span class="iconfont icon_wallet"></span>
+                <span class="menu_desc"><%= d %></span>
+            </div>
+            <div class="col-50 menu_item menu_help load_item_4" data-link="help">
+                <span class="iconfont icon_handshake"></span>
+                <span class="menu_desc"><%= e %></span>
+            </div>
+        </div>
+    </div>
+    <script src="../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function() {
+            // 页面数据渲染
+            function render(data){
+                $('.user_name').text(data.user_name);
+                $('.user_id span').text(data.user_id);
+                $('.wallet_num').text(data.account);
+                $('.avatar').css({'background-image': 'url("'+data.user_headImgUrl+'")'});
+
+                var _html_banner = "";
+                $.each(data.banner, function(i,item){
+                    _html_banner += '<div class="swiper-slide" data-link_to="'+item.link+'">'
+                        +'<div class="banner_item" style="background-image:' +'url('+item.img+');"></div>'
+                    +'</div>';
+                });
+                $('.swiper-wrapper').html(_html_banner);
+                var banner = $(".index_banner").swiper({
+                    pagination: '.swiper-pagination',
+                    nextButton: '.banner_title',
+                    autoplay: 2000,
+                    loop: true
+                });
+                banner.on('tap', function(swiper){
+                    var _link = $(swiper.clickedSlide).data('link_to');
+                    base.native("page_to", {link: _link});
+                });
+                (+data.first_install && +!data.sfuid) && base.get_inviter(true);
+            }
+            // 通知原生获取数据
+            base.native('render', function(data){
+                render(data);
+                base.removeLoading();
+            });
+            $('.wallet_info').on('tap', function(){
+                base.native('render', function(data){
+                    render(data);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
