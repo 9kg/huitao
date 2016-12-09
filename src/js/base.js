@@ -24,6 +24,20 @@ window.cfg_lz = {
                 $('.loading').remove();
             },time || 0);
         },
+        getData: function(url, fn){
+            var data = back[url];
+            // 非对象数据一律认定为格式错误
+            if($.type(data) !== 'object'){
+                $.alert('网络故障<br>(response data is not json)');
+                return false;
+            }
+
+            if(data.status === 1){
+                fn && fn(data.data || data);
+            }else{
+                $.alert('后台返回数据异常');
+            }
+        },
         dataCheck: function(data){          //对原生应用返回数据的检测
             // 非对象数据一律认定为格式错误
             if($.type(data) !== 'object'){

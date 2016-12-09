@@ -182,10 +182,10 @@ window.back = {
             "icon_url": "http://icon.nipic.com/BannerPic/20161102/home/20161102123234.jpg"
         }, {
             "link": "#page_url",
-            "icon_url": "http://icon.nipic.com/BannerPic/20161102/home/20161102123234.jpg"
+            "icon_url": "http://avatar.csdn.net/B/A/B/1_dog250.jpg"
         }, {
             "link": "#page_url2",
-            "icon_url": "http://icon.nipic.com/BannerPic/20161102/home/20161102123234.jpg"
+            "icon_url": "http://avatar.csdn.net/E/B/1/3_foruok.jpg"
         }]
     },
     "messages": {

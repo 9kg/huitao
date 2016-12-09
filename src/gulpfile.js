@@ -4,6 +4,7 @@ const gulp = require('gulp'),
     htmlmin = require('gulp-htmlmin'),
     cssmin = require('gulp-clean-css'),
     concat = require('gulp-concat'),
+    html_temp = require('gulp-file-include'),
     jsmin = require('gulp-uglify'),
     imgmin = require('gulp-imagemin'),
     pngmin = require('imagemin-pngquant'),
@@ -35,11 +36,12 @@ const cfg = (() => {
         concat_src: [_src + 'js/zepto.js', _src + 'js/base.js', _src + 'js/data_module.js', _src + 'js/sm.js', _src + 'js/sm-extend.js', _src + 'js/init.js', _src + 'js/page/*.js'],
         concat_src2build: [_src + 'js/zepto.js', _src + 'js/base.js', _src + 'js/sm.js', _src + 'js/sm-extend.js', _src + 'js/init.js', _src + 'js/page/*.js'],
         concat_to: _dev + '/js',
-        htmlmin_src: [_dev + '*.html', _dev + 'html/**/*.html'],
+        html_temp_src: [_src + 'html/*.html'],
+        html_temp_to: _dev + '/html',
+        htmlmin_src: [_dev + 'html/**/*'],
         htmlmin_to: _build + '/html',
         copy2dev: [_src + 'font/**/*.{eot,ttf}',
                     _src + 'css/**/*.css',
-                    _src + 'html/**/*.html',
                     _src + 'json/**/*.json',
                     _src + 'document/**/*.md',
                     _src + 'img/**/*.{png,jpg,gif,ico}',
@@ -101,7 +103,17 @@ gulp.task('concat',function(){
 gulp.task('watch',function(){
     gulp.watch(cfg.less_watch,['less']);
     gulp.watch(cfg.concat_src,['concat',browser_sync.reload]);
+    gulp.watch(cfg.html_temp_src,['html_temp',browser_sync.reload]);
     gulp.watch(cfg.copy2dev,['copy2dev',browser_sync.reload]);
+});
+// html模板编译
+gulp.task('html_temp',function(){
+    return gulp.src(cfg.html_temp_src)
+    .pipe(html_temp({
+      prefix: '@@',
+      basepath: '@file'
+    }))
+    .pipe(gulp.dest(cfg.html_temp_to));
 });
 
 // 给html中的url设置MD5后缀以及压缩html
@@ -167,7 +179,7 @@ gulp.task('copy2build', function(){
 
 
 gulp.task('default', function(){
-    sequence('clean_dev',['less','concat','copy2dev'],'watch',() => {
+    sequence('clean_dev',['less','concat','copy2dev','html_temp'],'watch',() => {
         browser_sync.init({
             server: cfg.server,
             port: cfg.port,
@@ -178,7 +190,7 @@ gulp.task('default', function(){
 });
 
 gulp.task('build', function(){
-    sequence(['clean_dev'],['less','concat','copy2dev'],'clean_build',['htmlmin', 'cssmin', 'jsmin', 'imgmin', 'copy2build'],() => {
+    sequence(['clean_dev'],['less','concat','copy2dev','html_temp'],'clean_build',['htmlmin', 'cssmin', 'jsmin', 'imgmin', 'copy2build'],() => {
         browser_sync.init({
             server: cfg.server_build,
             port: cfg.port,

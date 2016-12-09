@@ -1,4 +1,4 @@
-header.bar{
+.header_search{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -71,12 +71,38 @@ header.bar{
 
 .content-block-title{
     text-align: center;
+    font-size: .8rem;
     font-weight: bold;
     margin: 1rem 0 .5rem;
-    &.goods_today_title{
+    color: #333;
+    &.title_goods_today{
         .icon{
             font-weight: normal;
             color: #f00;
+        }
+    }
+    &.title_types{
+        position: relative;
+        &:before{
+            content: '';
+            position: absolute;
+            left: 12%;
+            top: 50%;
+            right: 12%;
+            height: 1px;
+            background-color: #e7e7e7;
+            display: block;
+            z-index: 15;
+            transform: scaleY(0.5);
+            transform-origin: 50% 100%;
+            z-index: 1;
+        }
+        .desc{
+            position: relative;
+            display: inline-block;
+            z-index: 2;
+            padding: 0 .6rem;
+            background-color: #fff;
         }
     }
 }

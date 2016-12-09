@@ -1,0 +1,38 @@
+@@include('./_temp/head.html')
+<body>
+    <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page page-current" id="index">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+                <h1 class="title">邀请好友一起购</h1>
+                <a class="button button-link button-nav pull-right" href="#invite_rule">
+                    邀请规则
+                </a>
+            </header>
+
+            <!-- 工具栏 -->
+            @@include('./_temp/footer.html',{"page":"share"})
+
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+                邀请好友页
+            </div>
+
+        </div>
+        <div class="page" id="invite_rule">
+            <header class="bar bar-nav">
+                <a class="icon icon-left pull-left back"></a>
+                <a class="icon icon-share pull-right"></a>
+                <h1 class="title">邀请规则 - 赚钱攻略</h1>
+            </header>
+            邀请规则
+        </div>
+    </div>
+    <script src="../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript">
+
+    </script>
+</body>
+
+</html>

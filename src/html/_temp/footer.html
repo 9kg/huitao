@@ -1,0 +1,41 @@
+@@if (page === 'index' || page === '9_9') {
+    <nav class="bar bar-tab">
+        <a class="tab-item@@if (page === 'index') { active}" href="#index">
+            <span class="icon icon-home"></span>
+            <span class="tab-label">抢购</span>
+        </a>
+        <a class="tab-item@@if (page === '9_9') { active}" href="#9_9">
+            <span class="icon icon-star"></span>
+            <span class="tab-label">9块9</span>
+        </a>
+        <a class="tab-item external@@if (page === 'share') { active}" href="./share.html">
+            <span class="icon icon-settings"></span>
+            <span class="tab-label">邀请赚</span>
+        </a>
+        <a class="tab-item external@@if (page === 'my') { active}" href="./my.html">
+            <span class="icon icon-settings"></span>
+            <span class="tab-label">我的</span>
+        </a>
+    </nav>
+}
+
+@@if (page === 'share' || page === 'my') {
+    <nav class="bar bar-tab">
+        <a class="tab-item external@@if (page === 'index') { active}" href="./index.html#index">
+            <span class="icon icon-home"></span>
+            <span class="tab-label">抢购</span>
+        </a>
+        <a class="tab-item external@@if (page === '9_9') { active}" href="./index.html#9_9">
+            <span class="icon icon-star"></span>
+            <span class="tab-label">9块9</span>
+        </a>
+        <a class="tab-item external@@if (page === 'share') { active}" href="./share.html">
+            <span class="icon icon-settings"></span>
+            <span class="tab-label">邀请赚</span>
+        </a>
+        <a class="tab-item external@@if (page === 'my') { active}" href="./my.html">
+            <span class="icon icon-settings"></span>
+            <span class="tab-label">我的</span>
+        </a>
+    </nav>
+}

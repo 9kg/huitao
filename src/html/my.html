@@ -1,0 +1,42 @@
+@@include('./_temp/head.html')
+<body>
+    <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page" id="index">
+            <!-- 标题栏 -->
+
+            <!-- 工具栏 -->
+            @@include('./_temp/footer.html',{"page":"my"})
+
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+                个人中心页
+            </div>
+
+        </div>
+    </div>
+    <div class="page" id="money_detail">
+        @@include('./_temp/header.html',{"title":"资金明细"})
+    </div>
+    <div class="page page-current" id="withdraw">
+        @@include('./_temp/header.html',{"title":"提现"})
+    </div>
+    <div class="page" id="password">
+        @@include('./_temp/header.html',{"title":"修改密码"})
+    </div>
+    <div class="page" id="setting">
+        @@include('./_temp/header.html',{"title":"账号设置"})
+    </div>
+    <div class="page" id="login">
+        @@include('./_temp/header.html',{"title":"登录"})
+    </div>
+    <div class="page" id="agreement">
+        @@include('./_temp/header.html',{"title":"购物须知"})
+    </div>
+    <script src="../js/base.js" charset="utf-8"></script>
+    <script type="text/javascript">
+
+    </script>
+</body>
+
+</html>
