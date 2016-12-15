@@ -4,6 +4,7 @@ window.cfg_lz = {
 };
 (function(){
     window.base = {
+        back_url: 'http://git.bramble.wang/data/',
         apple_url: 'https://itunes.apple.com/cn/app/youbini-laite/id1149698186?mt=8',   //苹果app更新地址
         native_call_times: {},              //原生接口调用时间
         callback: {},                       //所有原生方法的回调函数的容器
@@ -24,24 +25,18 @@ window.cfg_lz = {
                 $('.loading').remove();
             },time || 0);
         },
-        getData: function(url, fn){
-            var data = back[url];
+        data_check: function(data){
             // 非对象数据一律认定为格式错误
             if($.type(data) !== 'object'){
                 $.alert('网络故障<br>(response data is not json)');
                 return false;
-            }
-
-            if(data.status === 1){
-                fn && fn(data.data || data);
             }else{
-                $.alert('后台返回数据异常');
+                return true;
             }
         },
-        dataCheck: function(data){          //对原生应用返回数据的检测
+        native_data_check: function(data){          //对原生应用返回数据的检测
             // 非对象数据一律认定为格式错误
-            if($.type(data) !== 'object'){
-                $.alert('网络故障<br>(response data is not json)');
+            if(!base.data_check(data)){
                 return false;
             }
             if(+data.errcode === 0){
@@ -92,7 +87,7 @@ window.cfg_lz = {
             if(_fn !== undefined){
                 base.callback[_cb_name] = function(data){
                     // 检查数据是否异常
-                    if(base.dataCheck(data)){
+                    if(base.native_data_check(data)){
                         _fn(data);
                     }
                     // 方法调用完删除自身，避免无限增加内存溢出
@@ -120,6 +115,34 @@ window.cfg_lz = {
             var tips = ["<%= refresh_fail %>", '<%= refresh_success %>']
             $.pullToRefreshDone('.pull-to-refresh-content');
             $.toast(tips[flag]);
+        },
+        render: function(name, fn, data){
+            var _url = base.back_url+name+'.json';
+            var _type = 'GET';
+            if($.type(data) === 'string'){
+                _type = data;
+            }else if($.type(data) === 'object' && $.type(data.req_type) === 'string'){
+                _type = data.req_type;
+                delete data.req_type;
+            }
+            $.ajax({
+                url: _url,
+                type: _type,
+                dataType: 'json',
+                data: data,
+                success: function(data){
+                    if(base.data_check(data)){
+                        if(data.status !== 1){
+                            $.toast('操作失败' || data.msg);
+                        }else{
+                            fn && fn(data.data || data);
+                        }
+                    }
+                },
+                error: function(xhr, errorType, err){
+                    $.toast(err);
+                }
+            });
         }
     };
 })();

@@ -2,19 +2,19 @@
 <body>
     <div class="page-group">
         <!-- 单个page ,第一个.page默认被展示-->
-        <div class="page page-current" id="index">
+        <div class="page page-index page-current" id="index">
             <!-- 标题栏 -->
             @@include('./_temp/header_search.html')
 
             <!-- 工具栏 -->
             @@include('./_temp/footer.html',{"page":"index"})
 
+            <div class="buttons-tab">
+                <a href="#tab1" class="tab-link active button">分类馆</a>
+                <a href="#tab2" class="tab-link button">今日上新</a>
+            </div>
             <!-- 这里是页面内容区 -->
             <div class="content">
-                <div class="buttons-tab">
-                    <a href="#tab1" class="tab-link active button">分类馆</a>
-                    <a href="#tab2" class="tab-link button">今日上新</a>
-                </div>
                 <div class="content-block">
                     <div class="swiper-container" data-space-between='10'>
                         <div class="swiper-wrapper">
@@ -29,33 +29,8 @@
                                     <label class="desc">热卖分类</label>
                                 </div>
                                 <div class="list-block media-list">
-                                    <ul class="list_type">
-                                        <li>
-                                            <a href="#" class="item-link item-content">
-                                                <div class="item-media"><img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i4/TB10rkPGVXXXXXGapXXXXXXXXXX_!!0-item_pic.jpg_320x320q60.jpg"></div>
-                                                <div class="item-inner">
-                                                    <div class="item-title-row">
-                                                        <div class="item-title">标题</div>
-                                                        <div class="item-after">$15</div>
-                                                    </div>
-                                                    <div class="item-subtitle">标题</div>
-                                                    <div class="item-text">此处是文本内容...</div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="item-link item-content">
-                                                <div class="item-media"><img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i4/TB10rkPGVXXXXXGapXXXXXXXXXX_!!0-item_pic.jpg_320x320q60.jpg"></div>
-                                                <div class="item-inner">
-                                                    <div class="item-title-row">
-                                                        <div class="item-title">标题</div>
-                                                        <div class="item-after">$15</div>
-                                                    </div>
-                                                    <div class="item-subtitle">标题</div>
-                                                    <div class="item-text">此处是文本内容...</div>
-                                                </div>
-                                            </a>
-                                        </li>
+                                    <ul class="types_list list_type">
+
                                     </ul>
                                 </div>
                             </div>
@@ -65,35 +40,9 @@
                                 <div class="content-block-title title_goods_today">
                                     <span class="icon icon-emoji"></span> 每日十点 爆款推荐
                                 </div>
-                                <div class="list-block media-list">
-                                    <ul class="list_goods_today">
-                                        <li>
-                                            <a href="#" class="item-link item-content">
-                                                <div class="item-media"><img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i4/TB10rkPGVXXXXXGapXXXXXXXXXX_!!0-item_pic.jpg_320x320q60.jpg"></div>
+                                <div class="list-block  media-list">
+                                    <ul class="goods_list goods_today_list">
 
-                                                <div class="item-inner">
-                                                    <div class="item-title-row">
-                                                        <div class="item-title">标题</div>
-                                                        <div class="item-after">$15</div>
-                                                    </div>
-                                                    <div class="item-subtitle">标题</div>
-                                                    <div class="item-text">此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容</div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="item-link item-content">
-                                                <div class="item-media"><img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i4/TB10rkPGVXXXXXGapXXXXXXXXXX_!!0-item_pic.jpg_320x320q60.jpg"></div>
-                                                <div class="item-inner">
-                                                    <div class="item-title-row">
-                                                        <div class="item-title">标题</div>
-                                                        <div class="item-after">$15</div>
-                                                    </div>
-                                                    <div class="item-subtitle">标题</div>
-                                                    <div class="item-text">此处是文本内容...</div>
-                                                </div>
-                                            </a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -103,85 +52,119 @@
             </div>
 
         </div>
-        <div class="page" id="9_9">
+
+        <div class="page page-goods" id="goods">
             <!-- 标题栏 -->
-            @@include('./_temp/header_search.html')
-
-            <!-- 工具栏 -->
-            @@include('./_temp/footer.html',{"page":"9_9"})
-
+            <header class="header_search bar bar-nav bar-no-border">
+                <a class="icon icon-item icon-left back"></a>
+                <div class="searchbar">
+                    <a class="searchbar-cancel">取消</a>
+                    <div class="search-input">
+                        <label class="icon icon-search" for="search"></label>
+                        <input type="search" id='search' placeholder='搜索你喜欢的宝贝' />
+                    </div>
+                </div>
+            </header>
             <!-- 这里是页面内容区 -->
             <div class="content">
                 <div class="content-block">
                     <div class="list-block media-list">
-                        <ul class="list_goods_today">
-                            <li>
-                                <a href="#" class="item-link item-content">
-                                    <div class="item-media"><img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i4/TB10rkPGVXXXXXGapXXXXXXXXXX_!!0-item_pic.jpg_320x320q60.jpg"></div>
+                        <ul class="goods_list">
 
-                                    <div class="item-inner">
-                                        <div class="item-title-row">
-                                            <div class="item-title">标题</div>
-                                            <div class="item-after">$15</div>
-                                        </div>
-                                        <div class="item-subtitle">标题</div>
-                                        <div class="item-text">此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="item-link item-content">
-                                    <div class="item-media"><img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i4/TB10rkPGVXXXXXGapXXXXXXXXXX_!!0-item_pic.jpg_320x320q60.jpg"></div>
-                                    <div class="item-inner">
-                                        <div class="item-title-row">
-                                            <div class="item-title">标题</div>
-                                            <div class="item-after">$15</div>
-                                        </div>
-                                        <div class="item-subtitle">标题</div>
-                                        <div class="item-text">此处是文本内容...</div>
-                                    </div>
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
-
         </div>
-        <div class="page" id="msg">
+
+        <div class="page page-type_goods" id="type_goods">
+            <header class="bar bar-nav">
+                <a class="icon icon-left pull-left back"></a>
+                <h1 class="title">分类-商品列表</h1>
+            </header>
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+                <div class="content-block">
+                    <div class="list-block media-list">
+                        <ul class="goods_list">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page page-msg" id="msg">
             @@include('./_temp/header.html',{"title":"我的消息"})
+            <div class="content">
+                <ul class="msg_list">
+
+                </ul>
+            </div>
         </div>
     </div>
     <script src="../js/base.js" charset="utf-8"></script>
     <script type="text/javascript">
-        base.data = {
-            banner_html: ''
-        };
+        $(function(){
+            // banners 加载
+            base.render('banners',function(data){
+                var _html = base.html_temp('banners',data);
+                $('.swiper-wrapper').html(_html);
 
-        render_banners();
-
-
-        $.init();
-
-
-        function render_banners() {
-            if (!base.data.banner_html) {
-                base.getData('banners', function(data) {
-                    $.each(data, function(i, item) {
-                        base.data.banner_html += '<div class="swiper-slide" data-link_to="' + item.link + '">' +
-                            '<div class="banner_item" style="background-image:' + 'url(' + item.icon_url + ');"></div>' +
-                            '</div>';
-                    });
+                window.banner = $(".swiper-container").swiper({
+                    pagination: '.swiper-pagination',
+                    autoplay: 2000,
+                    loop: true
                 });
-            }
-            $('.swiper-wrapper').html(base.data.banner_html);
 
-            window.banner = $(".swiper-container").swiper({
-                pagination: '.swiper-pagination',
-                autoplay: 2000,
-                loop: true
+                $.init();
             });
-        }
+            // types_goods 加载
+            base.render('types_goods',function(data){
+                var _html = base.html_temp('types_goods',data);
+                $('.list_type').html(_html);
+            });
+            // goods 加载
+            base.render('goods',function(data){
+                var _html = base.html_temp('goods',data);
+
+                $('.goods_today_list').html(_html);
+            });
+            // messages 加载
+            base.render('messages',function(data){
+                var _html = base.html_temp('messages',data);
+                $('.msg_list').html(_html);
+            });
+
+            // 首页搜索进入商品列表页
+            $(document).on('keydown','.page-index #search',function(e){
+                if(e.keyCode === 13){
+                    var val = $(this).val();
+                    $(this).blur().val('');
+                    setTimeout(function(){
+                        $.router.load('#goods');
+                        $('.page-goods #search').val(val);
+                        // goods 加载
+                        base.render('goods',function(data){
+                            var _html = base.html_temp('goods',data);
+                            $('.page-goods .goods_list').html(_html);
+                        });
+                    },100);
+                }
+            });
+
+            // 点击分类进入商品列表页
+            $(document).on('click', '.types_list li', function(){
+                var type_id = $(this).data('type_id');
+                $.router.load('#type_goods');
+                $('.page-type_goods .title').html($('.type_title',this).text());
+
+                base.render('goods',function(data){
+                    var _html = base.html_temp('goods',data);
+                    $('.page-type_goods .goods_list').html(_html);
+                },{type: type_id});
+            });
+        });
     </script>
 </body>
 

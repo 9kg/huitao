@@ -1,8 +1,7 @@
 @@include('./_temp/head.html')
 <body>
     <div class="page-group">
-        <!-- 单个page ,第一个.page默认被展示-->
-        <div class="page page-current" id="9_9">
+        <div class="page page-9_9 page-current" id="9_9">
             <!-- 标题栏 -->
             @@include('./_temp/header_search.html')
 
@@ -13,46 +12,50 @@
             <div class="content">
                 <div class="content-block">
                     <div class="list-block media-list">
-                        <ul class="list_goods_today">
-                            <li>
-                                <a href="#" class="item-link item-content">
-                                    <div class="item-media"><img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i4/TB10rkPGVXXXXXGapXXXXXXXXXX_!!0-item_pic.jpg_320x320q60.jpg"></div>
+                        <ul class="goods_list">
 
-                                    <div class="item-inner">
-                                        <div class="item-title-row">
-                                            <div class="item-title">标题</div>
-                                            <div class="item-after">$15</div>
-                                        </div>
-                                        <div class="item-subtitle">标题</div>
-                                        <div class="item-text">此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容此处是文本内容</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="item-link item-content">
-                                    <div class="item-media"><img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i4/TB10rkPGVXXXXXGapXXXXXXXXXX_!!0-item_pic.jpg_320x320q60.jpg"></div>
-                                    <div class="item-inner">
-                                        <div class="item-title-row">
-                                            <div class="item-title">标题</div>
-                                            <div class="item-after">$15</div>
-                                        </div>
-                                        <div class="item-subtitle">标题</div>
-                                        <div class="item-text">此处是文本内容...</div>
-                                    </div>
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
-
         </div>
-        <div class="page" id="msg">
+        <div class="page page-msg" id="msg">
             @@include('./_temp/header.html',{"title":"我的消息"})
+            <div class="content">
+                <ul class="msg_list"></ul>
+            </div>
         </div>
     </div>
     <script src="../js/base.js" charset="utf-8"></script>
     <script type="text/javascript">
+        $(function(){
+            // goods 加载
+            base.render('goods',function(data){
+                var _html = base.html_temp('goods',data);
+
+                $('.goods_list').html(_html);
+            });
+            // messages 加载
+            base.render('messages',function(data){
+                var _html = base.html_temp('messages',data);
+                $('.msg_list').html(_html);
+            });
+
+            // 搜索进入商品列表页
+            $(document).on('keydown','.page-9_9 #search',function(e){
+                if(e.keyCode === 13){
+                    $(this).blur();
+                    $('.goods_list').html('');
+                    setTimeout(function(){
+                        // goods 加载
+                        base.render('goods',function(data){
+                            var _html = base.html_temp('goods',data);
+                            $('.goods_list').html(_html);
+                        });
+                    },100);
+                }
+            });
+        });
     </script>
 </body>
 

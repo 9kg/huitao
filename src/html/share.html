@@ -1,8 +1,9 @@
 @@include('./_temp/head.html')
+
 <body>
     <div class="page-group">
         <!-- 单个page ,第一个.page默认被展示-->
-        <div class="page page-current" id="index">
+        <div class="page page-share page-current" id="share">
             <!-- 标题栏 -->
             <header class="bar bar-nav">
                 <h1 class="title">邀请好友一起购</h1>
@@ -16,7 +17,31 @@
 
             <!-- 这里是页面内容区 -->
             <div class="content">
-                邀请好友页
+                <div class="share_img" style="background-image: url('https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=214931719,1608091472&fm=116&gp=0.jpg')"></div>
+                <div class="row no-gutter invitations_info">
+                    <div class="col-50 info_money">
+                        <label>邀请奖励（元）</label>
+                        <p class="num">--</p>
+                    </div>
+                    <div class="col-50 info_person">
+                        <label>已经邀请（人）</label>
+                        <p class="num">--</p>
+                    </div>
+                </div>
+                <a href="#" class="button button-big button-fill button-danger btn_invitate">
+                    <span class="icon icon-share"></span> 立即邀请
+                </a>
+                <a href="#invitation_details" class="btn_invitations_list">查看我的邀请详情></a>
+                <div class="ranking_list_ct">
+                    <div class="content-block-title">
+                        <i class="icon icon-settings"></i> 好友邀请排行榜
+                    </div>
+                    <div class="list-block">
+                        <ul class="ranking_list">
+
+                        </ul>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -28,10 +53,90 @@
             </header>
             邀请规则
         </div>
+        <div class="page page-invitation_details" id="invitation_details">
+            @@include('./_temp/header.html',{"title":"我的邀请明细"})
+            <div class="content">
+                <ul class="invitation_list">
+                    <li class="friend">
+                        <div class="friend_info">
+                            <div class="friend_img" style="background-image: url('https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=214931719,1608091472&fm=116&gp=0.jpg')"></div>
+                            <p class="friend_name">一缕清风</p>
+                        </div>
+                        <div class="list-block">
+                            <ul>
+                                <li class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">成功注册</div>
+                                        <div class="item-after">2016-09-08 18:00</div>
+                                    </div>
+                                </li>
+                                <li class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">首单 奖励5元</div>
+                                        <div class="item-after">2016-09-08 18:00</div>
+                                    </div>
+                                </li>
+                                <li class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">第二单 奖励5元</div>
+                                        <div class="item-after">2016-09-08 18:00</div>
+                                    </div>
+                                </li>
+                                <li class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">签收一单 奖励2元</div>
+                                        <div class="item-after">2016-09-08 18:00</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="friend">
+                        <div class="friend_info">
+                            <div class="friend_img" style="background-image: url('https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=214931719,1608091472&fm=116&gp=0.jpg')"></div>
+                            <p class="friend_name">一缕清风</p>
+                        </div>
+                        <div class="list-block">
+                            <ul>
+                                <li class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">成功注册</div>
+                                        <div class="item-after">2016-09-08 18:00</div>
+                                    </div>
+                                </li>
+                                <li class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title">首单 奖励5元</div>
+                                        <div class="item-after">2016-09-08 18:00</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     <script src="../js/base.js" charset="utf-8"></script>
     <script type="text/javascript">
+        $(function(){
+            var idx_logos = ['<i class="icon icon-settings"></i>', '<i class="icon icon-settings"></i>', '<i class="icon icon-settings"></i>'];
+            // 分享页信息 加载
+            base.render('invitate_info',function(data){
+                $('.info_money .num').text(data.money);
+                $('.info_person .num').text(data.person_num);
 
+                var _html = base.html_temp('ranking_list',data.ranking_list,idx_logos);
+
+                $('.ranking_list').html(_html);
+            });
+
+            // 邀请列表 加载
+            base.render('invitations',function(data){
+                var _html = base.html_temp('invitations',data);
+                $('.invitation_list').html(_html);
+            });
+        });
     </script>
 </body>
 

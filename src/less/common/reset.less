@@ -5,18 +5,198 @@ body{
 textarea {
     -webkit-appearance: none;
 }
-.page, .bar{
+.page{
     background-color: #fff;
 }
 .bar-nav{
     height: 3.2rem;
     padding-top: 1rem;
+    background-color: #f7f7f7;
     & ~ .content {
         top: 3.2rem;
     }
     &.bar-no-border{
         &:after{
             content: none;
+        }
+    }
+    .icon-left{
+        color: #3d4145;
+    }
+}
+.bar-tab{
+    background-color: rgba(246, 241, 240, .95);
+    z-index: 16;
+    & ~ .content {
+      bottom: 0;
+      padding-bottom: 2.5rem;
+    }
+}
+.list-block{
+    margin: 1rem 0;
+    >ul{
+        &:before,&:after{
+            content: none;
+        }
+    }
+}
+
+.content-block{
+    margin: 0;
+    padding: 0;
+}
+
+.goods_list{
+    li{
+        display: flex;
+        padding: .75rem .5rem;
+        .hairline(bottom,#f3f3f3);
+        .goods_img{
+            width: 5rem;
+            height: 5rem;
+            flex-shrink: 0;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .goods_info{
+            padding-left: 1rem;
+            padding-right: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .goods_name{
+                margin: 0;
+                font-size: .8rem;
+                color:#555;
+                line-height: 1.05rem;
+                position: relative;
+                overflow: hidden;
+                height: 2.1rem;
+                text-overflow: ellipsis;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                display: -webkit-box;
+            }
+            .goods_price_pre{
+                margin: 0;
+                font-size: .6rem;
+                color: #5f646e;
+            }
+            .goods_price_now{
+                margin: 0;
+                color: #f12e2e;
+                font-size: .6rem;
+                .price_num{
+                    font-size: 1.2rem;
+
+                    position: relative;
+                    &:after{
+                        content: '券后价';
+                        position: absolute;
+                        background-color: #fff;
+                        border: 1px solid #f12e2e;
+                        right: -4em;
+                        top: -0.5em;
+                        font-size: .5rem;
+                        line-height: 1;
+                        padding: .15em .25em;
+                        border-radius: 1em 1em 1em 0;
+                        z-index: 2;
+                    }
+                }
+            }
+        }
+        .icon-share{
+            position: absolute;
+            top: .75rem;
+            right: .5rem;
+            padding-left: .5rem;
+            padding-right: .25rem;
+        }
+        .goods_voucher{
+            position: absolute;
+            background-color: #f12e2e;
+            right: .5rem;
+            bottom: .75rem;
+            color: #fff;
+            border-left: 2px dotted #fff;
+            border-right: 2px dotted #fff;
+            font-size: .6rem;
+            padding-left: .2rem;
+            padding-right: 1.2rem;
+            padding-top: .2rem;
+            padding-bottom: .2rem;
+            line-height: 1.1rem;
+            font-weight: bold;
+            .voucher_num{
+                font-size: 1rem;
+                line-height: 1.2rem;
+                display: inline-block;
+                vertical-align: bottom;
+                position: relative;
+                padding-left: .05rem;
+                padding-right: .5rem;
+                .hairline(right,#f58686);
+            }
+            &:after{
+                content: '券';
+                position: absolute;
+                font-weight: normal;
+                border: 1px solid #fff;
+                right: .2rem;
+                top: .4rem;
+                font-size: .5rem;
+                line-height: 1;
+                padding: .15em;
+                border-radius: 100%;
+            }
+        }
+    }
+}
+.popup_share{
+    background-color: rgba(0,0,0,.5);
+    .share_icons_ct{
+        background-color: #f0f0f0;
+        text-align: center;
+        padding: 1rem 1rem 2.5rem;
+        margin: 0 auto;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        .hairline(bottom,#ccc);
+        &:after{
+            bottom: 2.425rem;
+        }
+        .share_icon_ct{
+            background-color: #fff;
+            width: 2rem;
+            height: 2rem;
+            margin: 0 auto;
+            line-height: 2rem;
+            border-radius: 100%;
+            .icon{
+                font-size: 1rem;
+                vertical-align: baseline;
+            }
+        }
+        .share_desc{
+            font-size: .6rem;
+        }
+    }
+    .share_cancel{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        border-radius: 0;
+        color:#333;
+        background: #fff;
+        &.active, &:active {
+            background: #fafafa;
         }
     }
 }
