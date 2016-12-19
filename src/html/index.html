@@ -10,39 +10,47 @@
             @@include('./_temp/footer.html',{"page":"index"})
 
             <div class="buttons-tab">
-                <a href="#tab1" class="tab-link active button">分类馆</a>
-                <a href="#tab2" class="tab-link button">今日上新</a>
+                <a href="#tab_types" class="tab-link button">分类馆</a>
+                <a href="#tab_today_goods" class="tab-link button active">今日上新</a>
             </div>
             <!-- 这里是页面内容区 -->
-            <div class="content">
+            <div class="content pull-to-refresh-content">
+                <div class="pull-to-refresh-layer">
+                   <div class="preloader"></div>
+                   <div class="pull-to-refresh-arrow"></div>
+                </div>
                 <div class="content-block">
                     <div class="swiper-container" data-space-between='10'>
                         <div class="swiper-wrapper">
-
+                            <span class="icon icon-logo"></span>
                         </div>
                         <div class="swiper-pagination"></div>
                     </div>
                     <div class="tabs">
-                        <div id="tab1" class="tab active">
+                        <div id="tab_types" class="tab">
                             <div class="content-block">
                                 <div class="content-block-title title_types">
                                     <label class="desc">热卖分类</label>
                                 </div>
                                 <div class="list-block media-list">
                                     <ul class="types_list list_type">
-
+                                        <li class="icon_ct">
+                                            <span class="icon icon-smile"></span>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div id="tab2" class="tab">
+                        <div id="tab_today_goods" class="tab active">
                             <div class="content-block">
                                 <div class="content-block-title title_goods_today">
-                                    <span class="icon icon-emoji"></span> 每日十点 爆款推荐
+                                    <span class="icon icon-gift"></span> 每日十点 爆款推荐
                                 </div>
                                 <div class="list-block  media-list">
                                     <ul class="goods_list goods_today_list">
-
+                                        <li class="icon_ct">
+                                            <span class="icon icon-smile"></span>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -56,7 +64,7 @@
         <div class="page page-goods" id="goods">
             <!-- 标题栏 -->
             <header class="header_search bar bar-nav bar-no-border">
-                <a class="icon icon-item icon-left back"></a>
+                <a class="icon icon-back back"></a>
                 <div class="searchbar">
                     <a class="searchbar-cancel">取消</a>
                     <div class="search-input">
@@ -66,11 +74,17 @@
                 </div>
             </header>
             <!-- 这里是页面内容区 -->
-            <div class="content">
+            <div class="content pull-to-refresh-content">
+                <div class="pull-to-refresh-layer">
+                   <div class="preloader"></div>
+                   <div class="pull-to-refresh-arrow"></div>
+                </div>
                 <div class="content-block">
                     <div class="list-block media-list">
                         <ul class="goods_list">
-
+                            <li class="icon_ct">
+                                <span class="icon icon-smile"></span>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -79,7 +93,7 @@
 
         <div class="page page-type_goods" id="type_goods">
             <header class="bar bar-nav">
-                <a class="icon icon-left pull-left back"></a>
+                <a class="icon icon-back pull-left back"></a>
                 <h1 class="title">分类-商品列表</h1>
             </header>
             <!-- 这里是页面内容区 -->
@@ -87,7 +101,9 @@
                 <div class="content-block">
                     <div class="list-block media-list">
                         <ul class="goods_list">
-
+                            <li class="icon_ct">
+                                <span class="icon icon-smile"></span>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -96,9 +112,15 @@
 
         <div class="page page-msg" id="msg">
             @@include('./_temp/header.html',{"title":"我的消息"})
-            <div class="content">
+            <div class="content pull-to-refresh-content">
+                <div class="pull-to-refresh-layer">
+                   <div class="preloader"></div>
+                   <div class="pull-to-refresh-arrow"></div>
+                </div>
                 <ul class="msg_list">
-
+                    <li class="icon_ct">
+                        <span class="icon icon-smile"></span>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -106,64 +128,12 @@
     <script src="../js/base.js" charset="utf-8"></script>
     <script type="text/javascript">
         $(function(){
-            // banners 加载
-            base.render('banners',function(data){
-                var _html = base.html_temp('banners',data);
-                $('.swiper-wrapper').html(_html);
-
-                window.banner = $(".swiper-container").swiper({
-                    pagination: '.swiper-pagination',
-                    autoplay: 2000,
-                    loop: true
-                });
-
-                $.init();
+            window.banner_index = $(".swiper-container").swiper({
+                pagination: '.swiper-pagination',
+                autoplay: 2000,
+                loop: true
             });
-            // types_goods 加载
-            base.render('types_goods',function(data){
-                var _html = base.html_temp('types_goods',data);
-                $('.list_type').html(_html);
-            });
-            // goods 加载
-            base.render('goods',function(data){
-                var _html = base.html_temp('goods',data);
-
-                $('.goods_today_list').html(_html);
-            });
-            // messages 加载
-            base.render('messages',function(data){
-                var _html = base.html_temp('messages',data);
-                $('.msg_list').html(_html);
-            });
-
-            // 首页搜索进入商品列表页
-            $(document).on('keydown','.page-index #search',function(e){
-                if(e.keyCode === 13){
-                    var val = $(this).val();
-                    $(this).blur().val('');
-                    setTimeout(function(){
-                        $.router.load('#goods');
-                        $('.page-goods #search').val(val);
-                        // goods 加载
-                        base.render('goods',function(data){
-                            var _html = base.html_temp('goods',data);
-                            $('.page-goods .goods_list').html(_html);
-                        });
-                    },100);
-                }
-            });
-
-            // 点击分类进入商品列表页
-            $(document).on('click', '.types_list li', function(){
-                var type_id = $(this).data('type_id');
-                $.router.load('#type_goods');
-                $('.page-type_goods .title').html($('.type_title',this).text());
-
-                base.render('goods',function(data){
-                    var _html = base.html_temp('goods',data);
-                    $('.page-type_goods .goods_list').html(_html);
-                },{type: type_id});
-            });
+            $.init();
         });
     </script>
 </body>

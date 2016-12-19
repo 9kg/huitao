@@ -6,7 +6,7 @@ base.html_temp = function (url_name, data, other_data){
             $.each(data, function(i, item) {
                 _html += '<div class="swiper-slide" data-link_to="' + item.link + '">' +
                     '<div class="banner_item" style="background-image:' + 'url(' + item.icon_url + ');"></div>' +
-                    '</div>';
+                    '</div>^_^';
             });
             break;
         case 'types_goods':
@@ -23,7 +23,7 @@ base.html_temp = function (url_name, data, other_data){
         case 'goods':
             $.each(data, function(i, item) {
                 _html += '<li data-goods_id="'+item.id+'">'
-                    +'<div class="goods_img" style="background-image: url('+item.icon_url+')"></div>'
+                    +'<div class="goods_img" style="background-image: url('+base.img_best(item.icon_url)+')"></div>'
                     +'<div class="goods_info">'
                         +'<p class="goods_name">'+item.name+'</p>'
                         +'<p class="goods_price_pre">'
@@ -34,7 +34,7 @@ base.html_temp = function (url_name, data, other_data){
                     +'<div class="goods_voucher">'
                         +'￥<span class="voucher_num">'+item.price_cut+'</span>'
                     +'</div>'
-                    +'<span class="icon icon-share"></span>'
+                    +'<span class="icon icon-share1"></span>'
                 +'</li>';
             });
             break;
@@ -120,6 +120,47 @@ base.html_temp = function (url_name, data, other_data){
                     +'</div>'
                 +'</li>';
             });
+            break;
+        case 'share':
+            _html = '<div class="popup popup_share">'
+                +'<div class="share_icons_ct">'
+                    +'<div class="row">'
+                        +'<div class="col-33 share_item" data-type="wechat_friends">'
+                            +'<div class="share_icon_ct">'
+                                +'<span class="icon icon-wechat_friends"></span>'
+                            +'</div>'
+                            +'<p class="share_desc">微信朋友圈</p>'
+                        +'</div>'
+                        +'<div class="col-33 share_item" data-type="qq_space">'
+                            +'<div class="share_icon_ct">'
+                                +'<span class="icon icon-qq_space"></span>'
+                            +'</div>'
+                            +'<p class="share_desc">QQ空间</p>'
+                        +'</div>'
+                        +'<div class="col-33 share_item" data-type="sina">'
+                            +'<div class="share_icon_ct">'
+                                +'<span class="icon icon-sina"></span>'
+                            +'</div>'
+                            +'<p class="share_desc">新浪微博</p>'
+                        +'</div>'
+                    +'</div>'
+                    +'<div class="row">'
+                        +'<div class="col-50 share_item" data-type="wechat">'
+                            +'<div class="share_icon_ct">'
+                                +'<span class="icon icon-wechat"></span>'
+                            +'</div>'
+                            +'<p class="share_desc">微信好友</p>'
+                        +'</div>'
+                        +'<div class="col-50 share_item" data-type="qq">'
+                            +'<div class="share_icon_ct">'
+                                +'<span class="icon icon-qq"></span>'
+                            +'</div>'
+                            +'<p class="share_desc">手机QQ</p>'
+                        +'</div>'
+                    +'</div>'
+                    +'<a href="#" class="button button-fill button-big share_cancel">取消</a>'
+                +'</div>'
+            +'</div>';
             break;
     }
     return _html;

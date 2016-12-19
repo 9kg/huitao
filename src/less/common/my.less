@@ -2,7 +2,7 @@
     background-color: #f7f7f7;
     .bar-nav {
         height: 5.2rem;
-        background-color: #f12e2e;
+        background-color: @main_color;
         color: #fff;
         padding-left: 4rem;
         .user_img{
@@ -24,6 +24,9 @@
         }
         & ~ .content{
             top: 5.2rem;
+            &.pull-to-refresh-content{
+                top: 3rem;
+            }
         }
     }
     .user_balance_ct{
@@ -51,7 +54,7 @@
             top: .5rem;
             right: 1rem;
         }
-        .hairline(bottom,#e7e7e7);
+        .hairline(bottom,#e2e2e2);
     }
     .user_moneys{
         text-align: center;
@@ -72,6 +75,9 @@
         ul{
             .item-media{
                 padding-top: .55rem;
+                display: block;
+                width: 1rem;
+                text-align: center;
             }
             .item-title{
                 font-size: .8rem;
@@ -98,9 +104,35 @@
 }
 
 .page-money_detail{
+    .bar-nav{
+        height: 5.2rem;
+        & ~ .content.pull-to-refresh-content {
+            top: 3rem;
+        }
+    }
+    .buttons-tab {
+        position: absolute;
+        top: 3.2rem;
+        width: 100%;
+        background-color: #fff;
+        z-index: 12;
+    }
     .content{
         .list-block{
             margin-top: 0;
+        }
+        .icon_ct{
+            width: 100%;
+            .icon{
+                font-size: 4rem;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                line-height: 8rem;
+                color: #d8d8d8;
+                text-align: center;
+            }
         }
     }
     #income_detail{

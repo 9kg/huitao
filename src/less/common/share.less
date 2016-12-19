@@ -7,8 +7,21 @@
         background-repeat: no-repeat;
     }
     .invitations_info{
-        padding-top: .5rem;
+        padding: .5rem 0 .2rem;
         background-color: #fff;
+        color: #666;
+        .info_money{
+            position: relative;
+            .hairline(right,#ccc);
+            &:after{
+                top: .3rem;
+                bottom: .5rem;
+                width: 0;
+                background-color: transparent;
+                border-right: 1px dashed #aaa;
+                height: auto;
+            }
+        }
         .info_money,.info_person{
             padding-left: 1rem;
             line-height: 1.2rem;
@@ -16,6 +29,7 @@
                 margin: 0;
                 line-height: 2rem;
                 font-size: 1.4rem;
+                color: #555;
             }
         }
     }
@@ -38,17 +52,33 @@
         .content-block-title{
             text-align: center;
             .icon{
-                vertical-align: baseline;
-                padding: 0 .5rem;
+                vertical-align: -.1rem;
+                padding: 0 .25rem;
                 font-size: 1rem;
-                color: #fddc19;
             }
         }
         .list-block{
             margin-bottom: 0;
+            .icon{
+                font-size: 1rem;
+            }
         }
-        ul{
+        .ranking_list{
             border-radius: 0 0 .3rem .3rem;
+            min-height: 8rem;
+            .icon_ct{
+                width: 100%;
+                .icon{
+                    font-size: 4rem;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    line-height: 8rem;
+                    color: #d8d8d8;
+                    text-align: center;
+                }
+            }
             .idx{
                 display: inline-block;
                 width: 1.2rem;
@@ -79,6 +109,20 @@
         list-style-type: none;
         padding-left: 0;
         margin: 0;
+        .icon_ct{
+            width: 100%;
+            position: relative;
+            .icon{
+                font-size: 4rem;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                line-height: 8rem;
+                color: #d8d8d8;
+                text-align: center;
+            }
+        }
         .friend{
             background-color: #fff;
             min-height: 5rem;

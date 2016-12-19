@@ -1,3 +1,4 @@
+@main_color: #fe4f3e;
 body{
     -webkit-font-smoothing: antialiased;
     user-select: none;
@@ -6,14 +7,18 @@ textarea {
     -webkit-appearance: none;
 }
 .page{
-    background-color: #fff;
+    background-color: #f7f7f7;
 }
+
 .bar-nav{
     height: 3.2rem;
     padding-top: 1rem;
     background-color: #f7f7f7;
     & ~ .content {
         top: 3.2rem;
+        &.pull-to-refresh-content{
+            top: 1rem;
+        }
     }
     &.bar-no-border{
         &:after{
@@ -24,12 +29,38 @@ textarea {
         color: #3d4145;
     }
 }
+
+.buttons-tab .button.active {
+    color: @main_color;
+    border-color: @main_color;
+}
+
 .bar-tab{
     background-color: rgba(246, 241, 240, .95);
     z-index: 16;
     & ~ .content {
       bottom: 0;
       padding-bottom: 2.5rem;
+    }
+    .tab-item.active, .tab-item:active {
+        color: @main_color;
+    }
+}
+.bar{
+    .icon-back{
+        padding-right: .5rem;
+    }
+    .icon.pull-right{
+        padding-left: .5rem;
+    }
+}
+.bar .button-link,a{
+    color: @main_color;
+}
+a{
+    color: @main_color;
+    &:active{
+        color: darken(@main_color,10%);
     }
 }
 .list-block{
@@ -45,9 +76,27 @@ textarea {
     margin: 0;
     padding: 0;
 }
-
+.swiper-pagination-bullet-active {
+    background: @main_color;
+}
 .goods_list{
-    li{
+    min-height: 8rem;
+    .icon_ct{
+        height: 8rem;
+        width: 100%;
+        background-color: #f7f7f7;
+        .icon{
+            font-size: 4rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            line-height: 8rem;
+            color: #d8d8d8;
+            text-align: center;
+        }
+    }
+    li:not(.icon_ct){
         display: flex;
         padding: .75rem .5rem;
         .hairline(bottom,#f3f3f3);
@@ -85,7 +134,7 @@ textarea {
             }
             .goods_price_now{
                 margin: 0;
-                color: #f12e2e;
+                color: @main_color;
                 font-size: .6rem;
                 .price_num{
                     font-size: 1.2rem;
@@ -95,7 +144,7 @@ textarea {
                         content: '券后价';
                         position: absolute;
                         background-color: #fff;
-                        border: 1px solid #f12e2e;
+                        border: 1px solid @main_color;
                         right: -4em;
                         top: -0.5em;
                         font-size: .5rem;
@@ -107,7 +156,7 @@ textarea {
                 }
             }
         }
-        .icon-share{
+        .icon-share1{
             position: absolute;
             top: .75rem;
             right: .5rem;
@@ -116,7 +165,7 @@ textarea {
         }
         .goods_voucher{
             position: absolute;
-            background-color: #f12e2e;
+            background-color: @main_color;
             right: .5rem;
             bottom: .75rem;
             color: #fff;
@@ -137,7 +186,12 @@ textarea {
                 position: relative;
                 padding-left: .05rem;
                 padding-right: .5rem;
-                .hairline(right,#f58686);
+                .hairline(right,#ffadad);
+                &:after{
+                    background-color: transparent;
+                    width: 0;
+                    border-right: 1px dashed #ffadad;
+                }
             }
             &:after{
                 content: '券';
@@ -155,7 +209,7 @@ textarea {
     }
 }
 .popup_share{
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(0,0,0,0);
     .share_icons_ct{
         background-color: #f0f0f0;
         text-align: center;
@@ -172,13 +226,13 @@ textarea {
         }
         .share_icon_ct{
             background-color: #fff;
-            width: 2rem;
-            height: 2rem;
+            width: 2.2rem;
+            height: 2.2rem;
             margin: 0 auto;
-            line-height: 2rem;
+            line-height: 2.2rem;
             border-radius: 100%;
             .icon{
-                font-size: 1rem;
+                font-size: 1.2rem;
                 vertical-align: baseline;
             }
         }

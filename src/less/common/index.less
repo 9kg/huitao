@@ -37,6 +37,7 @@
                 white-space: nowrap;
                 font-size: .5rem;
                 line-height: .7rem;
+                color: #888;
             }
         }
     }
@@ -47,10 +48,10 @@
         margin: 0;
         height: 2.2rem;
         line-height: 2.2rem;
-        color: #ef3232;
+        color: @main_color;
         padding: 0 .3rem;
         font-style: italic;
-        font-size: .8rem;
+        font-size: 1rem;
     }
     .list-block{
         margin-bottom: 0;
@@ -60,7 +61,9 @@
 .page-index{
     .bar-nav ~ .content{
         top: 5.2rem;
-        background-color: #fff;
+        &.pull-to-refresh-content{
+            top: 3rem;
+        }
     }
     .buttons-tab{
         background-color: #f7f7f7;
@@ -69,10 +72,23 @@
         right: 0;
         top: 3.2rem;
         height: 2rem;
+        z-index: 2;
     }
     .swiper-container {
         height: 8rem;
         padding-bottom: 0;
+        .swiper-wrapper{
+            .icon{
+                font-size: 4rem;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                line-height: 8rem;
+                color: #d8d8d8;
+                text-align: center;
+            }
+        }
         .swiper-slide{
             box-sizing: border-box;
             overflow: hidden;
@@ -90,10 +106,15 @@
         font-weight: bold;
         color: #333;
         &.title_goods_today{
-            margin: 1rem 0 .5rem;
+            padding: .75rem;
+            margin: 0;
+            & + .list-block{
+                margin-top: 0;
+            }
             .icon{
                 font-weight: normal;
-                color: #f00;
+                vertical-align: baseline;
+                padding: 0 .25rem;
             }
         }
         &.title_types{
@@ -122,7 +143,23 @@
     .types_list{
         display: flex;
         flex-wrap: wrap;
-        li{
+        min-height: 8rem;
+        .icon_ct{
+            width: 100%;
+            height: 8rem;
+            background-color: #f7f7f7;
+            .icon{
+                font-size: 4rem;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                line-height: 8rem;
+                color: #d8d8d8;
+                text-align: center;
+            }
+        }
+        li:not(.icon_ct){
             width: 50%;
             display: flex;
             padding: .5rem;
@@ -183,8 +220,6 @@
 }
 
 .page-9_9{
-    background-color: #fff;
-
     .list-block{
         margin-top: 0;
     }
@@ -194,8 +229,23 @@
         list-style-type: none;
         margin: 0;
         padding: 0;
-        min-height: 100%;
-        li{
+        .icon_ct{
+            width: 100%;
+            height: 8rem;
+            position: relative;
+            .icon{
+                font-size: 4rem;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                line-height: 8rem;
+                color: #d8d8d8;
+                text-align: center;
+            }
+        }
+        li:not(.icon_ct){
+            z-index: 2;
             padding: .25rem 1rem .5rem 1rem;
             background-color: #fff;
             margin-bottom: .25rem;

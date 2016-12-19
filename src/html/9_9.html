@@ -9,11 +9,17 @@
             @@include('./_temp/footer.html',{"page":"9_9"})
 
             <!-- 这里是页面内容区 -->
-            <div class="content">
+            <div class="content pull-to-refresh-content">
+                <div class="pull-to-refresh-layer">
+                   <div class="preloader"></div>
+                   <div class="pull-to-refresh-arrow"></div>
+                </div>
                 <div class="content-block">
                     <div class="list-block media-list">
                         <ul class="goods_list">
-
+                            <li class="icon_ct">
+                                <span class="icon icon-smile"></span>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -21,40 +27,23 @@
         </div>
         <div class="page page-msg" id="msg">
             @@include('./_temp/header.html',{"title":"我的消息"})
-            <div class="content">
-                <ul class="msg_list"></ul>
+            <div class="content pull-to-refresh-content">
+                <div class="pull-to-refresh-layer">
+                   <div class="preloader"></div>
+                   <div class="pull-to-refresh-arrow"></div>
+                </div>
+                <ul class="msg_list">
+                    <li class="icon_ct">
+                        <span class="icon icon-smile"></span>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
     <script src="../js/base.js" charset="utf-8"></script>
     <script type="text/javascript">
         $(function(){
-            // goods 加载
-            base.render('goods',function(data){
-                var _html = base.html_temp('goods',data);
-
-                $('.goods_list').html(_html);
-            });
-            // messages 加载
-            base.render('messages',function(data){
-                var _html = base.html_temp('messages',data);
-                $('.msg_list').html(_html);
-            });
-
-            // 搜索进入商品列表页
-            $(document).on('keydown','.page-9_9 #search',function(e){
-                if(e.keyCode === 13){
-                    $(this).blur();
-                    $('.goods_list').html('');
-                    setTimeout(function(){
-                        // goods 加载
-                        base.render('goods',function(data){
-                            var _html = base.html_temp('goods',data);
-                            $('.goods_list').html(_html);
-                        });
-                    },100);
-                }
-            });
+            $.init();
         });
     </script>
 </body>

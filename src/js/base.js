@@ -4,6 +4,7 @@ window.cfg_lz = {
 };
 (function(){
     window.base = {
+        data:{},                            //页面数据缓存
         back_url: 'http://git.bramble.wang/data/',
         apple_url: 'https://itunes.apple.com/cn/app/youbini-laite/id1149698186?mt=8',   //苹果app更新地址
         native_call_times: {},              //原生接口调用时间
@@ -11,6 +12,19 @@ window.cfg_lz = {
         link_title: {                       //页面标题
             personal: '个人中心',
             index: '首页'
+        },
+        img_best: function(url){
+            var ext = '_80x80.jpg';
+            if(window.devicePixelRatio === 1){
+                ext = '_40x40.jpg';
+            }else if(window.devicePixelRatio === 1.5){
+                ext = '_60x60.jpg';
+            }else if(window.devicePixelRatio === 2.5){
+                ext = '_100x100.jpg';
+            }else if(window.devicePixelRatio === 3){
+                ext = '_120x120.jpg';
+            }
+            return url + ext;
         },
         addLoading: function(){             //添加页面Loding
             var _html = '<div class="loading">'
@@ -117,8 +131,21 @@ window.cfg_lz = {
             $.toast(tips[flag]);
         },
         render: function(name, fn, data){
-            var _url = base.back_url+name+'.json';
+            var id = '';
             var _type = 'GET';
+            if($.type(name) === "object"){
+                data = name.data;
+                fn = name.fn;
+                id = name.id || name.name;
+                name = name.name;
+                _type = name.req_type;
+            }else{
+                id = name;
+            }
+            if(base.data[id]){
+                return;
+            }
+            var _url = base.back_url+name+'.json';
             if($.type(data) === 'string'){
                 _type = data;
             }else if($.type(data) === 'object' && $.type(data.req_type) === 'string'){
@@ -135,6 +162,7 @@ window.cfg_lz = {
                         if(data.status !== 1){
                             $.toast('操作失败' || data.msg);
                         }else{
+                            base.data[id] = data.data || data;
                             fn && fn(data.data || data);
                         }
                     }

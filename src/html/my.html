@@ -5,12 +5,16 @@
         <!-- 个人中心首页-->
         <div class="page page-current page-my" id="my">
             <header class="bar bar-nav">
-                <a class="icon icon-settings pull-right" href="#setting"></a>
+                <a class="icon icon-set pull-right" href="#setting"></a>
                 <div class="user_img" style="background-image: url('https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=214931719,1608091472&fm=116&gp=0.jpg')"></div>
                 <div class="user_name">搜狗拼音</div>
             </header>
             @@include('./_temp/footer.html',{"page":"my"})
-            <div class="content">
+            <div class="content pull-to-refresh-content">
+                <div class="pull-to-refresh-layer">
+                   <div class="preloader"></div>
+                   <div class="pull-to-refresh-arrow"></div>
+                </div>
                 <div class="user_balance_ct">
                     <div class="user_balance">
                         <label class="desc">可用余额（元）</label>
@@ -41,32 +45,32 @@
                 <div class="list-block">
                     <ul>
                         <li class="item-content item-link" data-link="#money_detail">
-                            <div class="item-media"><i class="icon icon-settings"></i></div>
+                            <div class="item-media"><i class="icon icon-detail"></i></div>
                             <div class="item-inner">
                                 <div class="item-title">资金明细</div>
                             </div>
                         </li>
                         <li class="item-content item-link">
-                            <div class="item-media"><i class="icon icon-settings"></i></div>
+                            <div class="item-media"><i class="icon icon-taobao"></i></div>
                             <div class="item-inner">
                                 <div class="item-title">我的淘宝订单</div>
                                 <div class="item-after"><span class="receipt_num num">__</span>个待收货</div>
                             </div>
                         </li>
                         <li class="item-content item-link" data-link="./share.html#invitation_details">
-                            <div class="item-media"><i class="icon icon-settings"></i></div>
+                            <div class="item-media"><i class="icon icon-invitation"></i></div>
                             <div class="item-inner">
                                 <div class="item-title">我的邀请记录</div>
                             </div>
                         </li>
                         <li class="item-content item-link">
-                            <div class="item-media"><i class="icon icon-settings"></i></div>
+                            <div class="item-media"><i class="icon icon-wechat"></i></div>
                             <div class="item-inner">
                                 <div class="item-title">微信客服</div>
                             </div>
                         </li>
                         <li class="item-content item-link">
-                            <div class="item-media"><i class="icon icon-settings"></i></div>
+                            <div class="item-media"><i class="icon icon-qq1"></i></div>
                             <div class="item-inner">
                                 <div class="item-title">QQ客服</div>
                             </div>
@@ -85,21 +89,33 @@
         <!-- 资金明细页 -->
         <div class="page page-money_detail" id="money_detail">
             @@include('./_temp/header.html',{"title":"资金明细"})
-            <div class="content">
-                <div class="buttons-tab">
-                    <a href="#income_detail" class="tab-link active button">收入明细</a>
-                    <a href="#withdraw_detail" class="tab-link button">提现明细</a>
+            <div class="buttons-tab">
+                <a href="#income_detail" class="tab-link active button">收入明细</a>
+                <a href="#withdraw_detail" class="tab-link button">提现明细</a>
+            </div>
+            <div class="content pull-to-refresh-content">
+                <div class="pull-to-refresh-layer">
+                   <div class="preloader"></div>
+                   <div class="pull-to-refresh-arrow"></div>
                 </div>
                 <div class="content-block">
                     <div class="tabs">
                         <div id="income_detail" class="tab active">
                             <div class="list-block">
-                                <ul></ul>
+                                <ul>
+                                    <li class="icon_ct">
+                                        <span class="icon icon-smile"></span>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                         <div id="withdraw_detail" class="tab">
                             <div class="list-block">
-                                <ul></ul>
+                                <ul>
+                                    <li class="icon_ct">
+                                        <span class="icon icon-smile"></span>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -354,42 +370,7 @@
     <script src="../js/base.js" charset="utf-8"></script>
     <script type="text/javascript">
         $(function(){
-            // 页面信息 加载
-            base.render('personal_info',function(data){
-                $('.balance_num').text(data.balance);
-                $('.user_money_total .num').text(data.total);
-                $('.user_money_predict .num').text(data.predict);
-                $('.user_money_withdrawn .num').text(data.withdrawn);
-                $('.user_money_processing .num').text(data.processing);
-                $('.receipt_num').text(data.receipt_num);
-
-                if(data.bind_phone){
-                    $('.phone_num_text').text(data.bind_phone)
-                                    .closest('.item-content').removeClass('item-link')
-                                    .removeAttr('data-link');
-                    $('.phone_num_val').val(data.bind_phone);
-                }
-                if(data.alipay_num){
-                    $('.taobao_unbind').show();
-                    $('.alipay_num_text').text(data.alipay_num);
-                    $('.alipay_num').val(data.alipay_num);
-                    $('.alipay_name').val(data.alipay_name || '');
-                }else{
-                    $('.taobao_bind').show();
-                }
-            });
-
-            // 收入明细 数据加载
-            base.render('incomes',function(data){
-                var _html = base.html_temp('incomes',data);
-                $('#income_detail ul').html(_html);
-            });
-
-            // 收入明细 数据加载
-            base.render('withdrawals',function(data){
-                var _html = base.html_temp('withdrawals',data);
-                $('#withdraw_detail ul').html(_html);
-            });
+            $.init();
         });
     </script>
 </body>
