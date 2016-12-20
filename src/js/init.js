@@ -1,6 +1,6 @@
 $(function() {
     // 页面初始化事件
-    $(document).on("pageInit", function(e, id, $page) {
+    $(window).on("pageInit", function(e, id, $page) {
         console.log(id);
         if(id === "index"){
             base.render('banners',function(data){
@@ -69,6 +69,16 @@ $(function() {
             });
         }else if(id === "money_detail"){
             $('#income_detail').trigger('show');
+        }else if(id === "type_goods"){
+            base.render({
+                name: 'goods',
+                id: 'goods_type_goods',
+                fn: function(data){
+                    var _html = base.html_temp('goods',data);
+                    $('.page-type_goods .goods_list').html(_html);
+                },
+                data: {type: base.page_type_goods_id}
+            });
         }
     });
 });

@@ -5,6 +5,11 @@
         background-position: center center;
         background-size: cover;
         background-repeat: no-repeat;
+
+        background-image: url('../img/page_share_bg_x2.jpg');
+        @media only screen and (-webkit-min-device-pixel-ratio: 3) {
+            background-image: url('../img/page_share_bg_x3.jpg');
+        }
     }
     .invitations_info{
         padding: .5rem 0 .2rem;
@@ -164,6 +169,35 @@
                     }
                 }
             }
+        }
+    }
+}
+
+
+.page-invite_rule{
+    .content{
+        background-color: #fff;
+    }
+    .head_title{
+        height: 7.2rem;
+        background-image: url('../img/page_rule_bg_x2.jpg');
+        @media only screen and (-webkit-min-device-pixel-ratio: 3) {
+            background-image: url('../img/page_rule_bg_x3.jpg');
+        }
+        background-size: cover;
+        background-position: center center;
+    }
+    p.rule_title{
+        margin: 0;
+        padding-top: .25rem;
+        text-align: center;
+        color: #8c620d;
+    }
+    .rule_list{
+        font-size: .7rem;
+        margin: 0;
+        li{
+            padding: 1rem .5rem 0 0;
         }
     }
 }

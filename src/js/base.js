@@ -9,10 +9,6 @@ window.cfg_lz = {
         apple_url: 'https://itunes.apple.com/cn/app/youbini-laite/id1149698186?mt=8',   //苹果app更新地址
         native_call_times: {},              //原生接口调用时间
         callback: {},                       //所有原生方法的回调函数的容器
-        link_title: {                       //页面标题
-            personal: '个人中心',
-            index: '首页'
-        },
         img_best: function(url){
             var ext = '_80x80.jpg';
             if(window.devicePixelRatio === 1){
@@ -110,11 +106,6 @@ window.cfg_lz = {
                 obj.callback = 'base.callback.'+_cb_name;
             }
 
-            // 添加页面标题
-            if(fn_name === 'page_to' && obj.link){
-                obj.title = base.link_title[obj.link] || obj.title || '<%= activity %>';
-            }
-
             // 原生调用差异性整合封装
             if(window.native_android){
                 window.native_android[fn_name](JSON.stringify(obj));
@@ -124,46 +115,51 @@ window.cfg_lz = {
                 window.native[fn_name](obj);
             }
         },
-        refresh: function(flag){
-            // 页面刷新的后续操作
-            var tips = ["<%= refresh_fail %>", '<%= refresh_success %>']
-            $.pullToRefreshDone('.pull-to-refresh-content');
-            $.toast(tips[flag]);
-        },
         render: function(name, fn, data){
             var id = '';
             var _type = 'GET';
+            var is_refresh = false;
             if($.type(name) === "object"){
                 data = name.data;
                 fn = name.fn;
                 id = name.id || name.name;
-                name = name.name;
+                is_refresh = !!name.is_refresh;
                 _type = name.req_type;
+                name = name.name;
             }else{
                 id = name;
             }
+
+            // 数据已存在时直接加载现有数据
             if(base.data[id]){
+                fn && fn(base.data[id]);
                 return;
             }
-            var _url = base.back_url+name+'.json';
+
+            var _url = base.back_url+name+'.json'+'?t='+(+new Date);
             if($.type(data) === 'string'){
                 _type = data;
             }else if($.type(data) === 'object' && $.type(data.req_type) === 'string'){
                 _type = data.req_type;
                 delete data.req_type;
             }
+
+            // 非下拉刷新及非banners请求的情况下  显示加载提示
+            !is_refresh && name !== "banners" && $.showIndicator();
+
             $.ajax({
                 url: _url,
                 type: _type,
                 dataType: 'json',
                 data: data,
                 success: function(data){
+                    name !== "banners" && $.hideIndicator();
                     if(base.data_check(data)){
                         if(data.status !== 1){
                             $.toast('操作失败' || data.msg);
                         }else{
                             base.data[id] = data.data || data;
-                            fn && fn(data.data || data);
+                            fn && fn(base.data[id]);
                         }
                     }
                 },
