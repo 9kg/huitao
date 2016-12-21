@@ -1,5 +1,5 @@
 {
-    "types_goods": {
+    "types": {
         "status": 1,
         "msg": "请求成功",
         "data": [{

@@ -9,6 +9,14 @@ window.cfg_lz = {
         apple_url: 'https://itunes.apple.com/cn/app/youbini-laite/id1149698186?mt=8',   //苹果app更新地址
         native_call_times: {},              //原生接口调用时间
         callback: {},                       //所有原生方法的回调函数的容器
+        page_size: 10,
+        is_loading: false,
+        cur_page: {
+            goods_today_list: 1,
+            goods_9_9: 1,
+            type_goods: 1,
+            goods: 1
+        },
         img_best: function(url){
             var ext = '_80x80.jpg';
             if(window.devicePixelRatio === 1){
