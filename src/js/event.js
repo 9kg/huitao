@@ -43,6 +43,7 @@ $(function() {
     }).on('keydown', '.page-index #search', function(e) {
         // 首页搜索进入商品列表页
         if (e.keyCode === 13) {
+            $('.content').scrollTop(0);
             var val = $(this).val();
             $(this).blur().val('');
             setTimeout(function() {
@@ -54,12 +55,14 @@ $(function() {
         // 商品列表页搜索
         if (e.keyCode === 13) {
             $(this).blur();
+            $('.content').scrollTop(0);
             base.page_pad('goods', 'search');
         }
     }).on('keydown', '.page-9_9 #search', function(e) {
         // 9块9页搜索
         if (e.keyCode === 13) {
             $(this).blur();
+            $('.content').scrollTop(0);
             base.page_pad('goods_9_9', 'search');
         }
     });
@@ -109,5 +112,19 @@ $(function() {
         }else if($page.is('.page-9_9')){
             base.page_pad('goods_9_9', 'loading_more');
         }
+    });
+
+    // 原生调用
+    $(document).on('click','.icon-shopping_cart',function(){
+        base.native('shopping_cart');
+    }).on('click','.service_wechat',function(){
+        base.native('service',{type:'wechat'});
+    }).on('click','.service_qq',function(){
+        base.native('service',{type:'qq'});
+    }).on('click','.link_orders',function(){
+        base.native('orders');
+    }).on('click','.share_item',function(){
+        var _type = $(this).data('type');
+        base.native('share', {type: _type});
     });
 });
