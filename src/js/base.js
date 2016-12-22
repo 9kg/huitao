@@ -5,7 +5,8 @@ window.cfg_lz = {
 (function(){
     window.base = {
         data:{},                            //页面数据缓存
-        back_url: 'http://git.bramble.wang/data/',
+        // back_url: 'http://git.bramble.wang/data/',
+        back_url: 'http://item.mssoft.info/shopping/',
         apple_url: 'https://itunes.apple.com/cn/app/youbini-laite/id1149698186?mt=8',   //苹果app更新地址
         native_call_times: {},              //原生接口调用时间
         callback: {},                       //所有原生方法的回调函数的容器
@@ -19,13 +20,7 @@ window.cfg_lz = {
         },
         img_best: function(url){
             var ext = '_80x80.jpg';
-            if(window.devicePixelRatio === 1){
-                ext = '_40x40.jpg';
-            }else if(window.devicePixelRatio === 1.5){
-                ext = '_60x60.jpg';
-            }else if(window.devicePixelRatio === 2.5){
-                ext = '_100x100.jpg';
-            }else if(window.devicePixelRatio === 3){
+            if(window.devicePixelRatio === 3){
                 ext = '_120x120.jpg';
             }
             return url + ext;
@@ -125,14 +120,14 @@ window.cfg_lz = {
         },
         render: function(name, fn, data){
             var id = '';
-            var _type = 'GET';
+            var _type = 'POST';
             var is_refresh = false;
             if($.type(name) === "object"){
                 data = name.data;
                 fn = name.fn;
                 id = name.id || name.name;
                 is_refresh = !!name.is_refresh;
-                _type = name.req_type;
+                _type = name.req_type || _type;
                 name = name.name;
             }else{
                 id = name;
@@ -144,17 +139,18 @@ window.cfg_lz = {
                 return;
             }
 
-            var _url = base.back_url+name+'.json'+'?t='+(+new Date);
+            var _url = base.back_url+name //+'.json'+'?t='+(+new Date);
             if($.type(data) === 'string'){
                 _type = data;
             }else if($.type(data) === 'object' && $.type(data.req_type) === 'string'){
-                _type = data.req_type;
+                _type = data.req_type || _type;
                 delete data.req_type;
             }
 
             // 非下拉刷新及非banners请求的情况下  显示加载提示
             !is_refresh && name !== "banners" && $.showIndicator();
 
+            data = _type.toLocaleLowerCase() === 'post' ? JSON.stringify(data) : data;
             $.ajax({
                 url: _url,
                 type: _type,
@@ -172,6 +168,7 @@ window.cfg_lz = {
                     }
                 },
                 error: function(xhr, errorType, err){
+                    name !== "banners" && $.hideIndicator();
                     $.toast(err);
                 }
             });

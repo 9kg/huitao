@@ -3,12 +3,6 @@ $(function() {
         // page路由跳转
         var _link = $(this).data('link');
         $.router.load(_link);
-    }).on('click', '.service_qq', function(e) {
-        // 点击qq客服
-
-    }).on('click', '.service_wechat', function(e) {
-        // 点击微信客服
-
     }).on('click', '.popup_share', function(e) {
         // 点击分享弹出框背景区域关闭弹框
         $(e.target).is('.popup_share') && $.closeModal();
@@ -22,10 +16,12 @@ $(function() {
         // 点击对应元素弹出分享框
         var _link = $(this).data('link');
         $.popup(base.html_temp('share'));
-    }).on('click', '.types_list li', function() {
+        e.stopPropagation();
+    }).on('click', '.types_list li:not(.icon_ct)', function() {
         // 点击大类进入对应大类的商品页面，调整大类标题
-        base.page_type_goods_id = $(this).data('type_id');
-        base.page_type_goods_title = $('.type_title', this).text();
+        var $page_type_goods = $('.page-type_goods');
+        $page_type_goods.data('id', $(this).data('type_id'));
+        $page_type_goods.find('.title').html($('.type_title', this).text());
         $.router.load('#type_goods');
     }).on('show', '#tab_types', function(e) {
         // 首页 商品分类 tab项显示时  加载对应的页面
@@ -120,11 +116,15 @@ $(function() {
     }).on('click','.service_wechat',function(){
         base.native('service',{type:'wechat'});
     }).on('click','.service_qq',function(){
-        base.native('service',{type:'qq'});
+        base.native('service',{type:'qq',qq_num:'2547127766'});
     }).on('click','.link_orders',function(){
         base.native('orders');
     }).on('click','.share_item',function(){
         var _type = $(this).data('type');
         base.native('share', {type: _type});
+    }).on('click','.goods_list li',function(e){
+        if($(e.target).is('.icon-share1')) return;
+        var _goods_id = $(this).data('goods_id');
+        base.native('goods_detail', {goods_id: _goods_id});
     });
 });

@@ -16,7 +16,7 @@ base.html_temp = function (url_name, data, other_data){
                         +'<p class="type_title">'+item.name+'</p>'
                         +'<p class="type_desc">'+item.desc+'</p>'
                     +'</div>'
-                    +'<div class="type_img" style="background-image:url(\''+item.icon_url+'\')"></div>'
+                    +'<div class="type_img" style="background-image:url(\''+base.img_best(item.icon_url)+'\')"></div>'
                 +'</li>';
             });
             break;

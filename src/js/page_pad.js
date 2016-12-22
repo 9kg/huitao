@@ -19,15 +19,29 @@ base.page_pad = function(port,way){
 
 
     // 直接填充或是在后面加载
-    var _page_pad = function(sel,_html){
-        $(sel)[way === 'loading_more' ? 'append' : 'html'](_html);
-        // 初始化时给需要下拉加载的页面动态填充下拉加载提示图标
-        if(way === 'init' && need_preloader){
-            var $ct = $(sel).closest('.list-block');
-            var preloader_html = '<div class="infinite-scroll-preloader">'
-                +'<div class="preloader"></div>'
-            +'</div>';
-            !$ct.find('.preloader').length && $ct.append(preloader_html);
+    var _page_pad = function(sel,_html,data_len){
+        var $ct = $(sel).closest('.list-block');
+        if(way === 'loading_more'){
+            $(sel).append(_html);
+        }else{
+            if(data_len){
+                $(sel).html(_html);
+            }else{
+                $(sel).html('<li class="icon_ct">'
+                                +'<span class="icon icon-no_data"></span>'
+                            +'</li>');
+                $ct.find('.preloader').remove();
+            }
+            // 非下拉加载时给需要下拉加载的页面动态填充下拉加载提示图标
+            if(need_preloader){
+                var preloader_html = '<div class="infinite-scroll-preloader">'
+                    +'<div class="preloader"></div>'
+                +'</div>';
+                if(!$ct.find('.preloader').length && data_len){
+                    $ct.append(preloader_html);
+                    $.attachInfiniteScroll($('.infinite-scroll'));
+                }
+            }
         }
     };
 
@@ -44,13 +58,13 @@ base.page_pad = function(port,way){
         case "incomes":
             obj = function(data){
                 var _html = base.html_temp('incomes',data);
-                _page_pad('#income_detail ul',_html);
+                _page_pad('#income_detail ul',_html,data.length);
             };
             break;
         case "withdrawals":
             obj = function(data){
                 var _html = base.html_temp('withdrawals',data);
-                _page_pad('#withdraw_detail ul',_html);
+                _page_pad('#withdraw_detail ul',_html,data.length);
             };
             break;
         case "personal_info":
@@ -81,7 +95,7 @@ base.page_pad = function(port,way){
         case "invitations":
             obj = function(data){
                 var _html = base.html_temp('invitations',data);
-                _page_pad('.invitation_list',_html);
+                _page_pad('.invitation_list',_html,data.length);
             };
             break;
         case "invitate_info":
@@ -89,7 +103,7 @@ base.page_pad = function(port,way){
                 $('.info_money .num').text(data.money);
                 $('.info_person .num').text(data.person_num);
                 var _html = base.html_temp('ranking_list',data.ranking_list,['<i class="icon icon-first"></i>', '<i class="icon icon-second"></i>', '<i class="icon icon-third"></i>']);
-                _page_pad('.ranking_list',_html);
+                _page_pad('.ranking_list',_html,data.length);
             };
             break;
         case "goods_9_9":
@@ -98,7 +112,7 @@ base.page_pad = function(port,way){
                 id: port,
                 fn: function(data){
                     var _html = base.html_temp('goods',data);
-                    _page_pad('.page-9_9 .goods_list',_html);
+                    _page_pad('.page-9_9 .goods_list',_html,data.length);
                 },
                 data: {
                     type: '9.9',
@@ -114,15 +128,15 @@ base.page_pad = function(port,way){
                 id: 'type_goods',
                 fn: function(data){
                     var _html = base.html_temp('goods',data);
-                    _page_pad('.page-type_goods .goods_list',_html);
+                    _page_pad('.page-type_goods .goods_list',_html,data.length);
                 },
                 data: {
-                    type: base.page_type_goods_id,
+                    type: $('.page-type_goods').data('id'),
                     cur_page: base.cur_page.type_goods,
                     page_size: base.page_size
                 }
             };
-            base.page_type_goods_title && $('.page-type_goods .title').html(base.page_type_goods_title);
+
             break;
         case "goods":
             obj = {
@@ -130,7 +144,7 @@ base.page_pad = function(port,way){
                 id: 'goods',
                 fn: function(data){
                     var _html = base.html_temp('goods',data);
-                    _page_pad('.page-goods .goods_list',_html);
+                    _page_pad('.page-goods .goods_list',_html,data.length);
                 },
                 data: {
                     cur_page: base.cur_page.goods,
@@ -142,13 +156,13 @@ base.page_pad = function(port,way){
         case "messages":
             obj = function(data){
                 var _html = base.html_temp('messages',data);
-                _page_pad('.msg_list',_html);
+                _page_pad('.msg_list',_html,data.length);
             };
             break;
         case "types":
             obj = function(data){
                 var _html = base.html_temp('types_goods',data);
-                _page_pad('.list_type',_html);
+                _page_pad('.list_type',_html,data.length);
             };
             break;
         case "goods_today_list":
@@ -157,7 +171,7 @@ base.page_pad = function(port,way){
                 id: port,
                 fn: function(data){
                     var _html = base.html_temp('goods',data);
-                    _page_pad('.page-index .goods_today_list',_html);
+                    _page_pad('.page-index .goods_today_list',_html,data.length);
                 },
                 data: {
                     type: 'today',
