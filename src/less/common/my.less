@@ -21,6 +21,7 @@
             float: left;
             margin-left: -3.5rem;
             margin-top: .6rem;
+            background-color: rgb(223, 169, 203);
             background-position: center center;
             background-size: cover;
             background-repeat: no-repeat;
@@ -263,6 +264,11 @@
         padding-left: 1.5rem;
         font-size: .7rem;
         color: #666;
+        .num{
+            color: @main_color;
+            padding: 0 .1rem;
+            font-size: .8rem;
+        }
     }
     .btn_withdraw{
         width: 85%;
@@ -282,12 +288,18 @@
     .item-after{
         font-size: .7rem;
     }
-    .taobao_bind,.taobao_unbind{
-        display: none;
+    .taobao_bind,.taobao_unbind,.user_register{
+        height: 0;
+        min-height: 0;
+        overflow: hidden;
+        &.show{
+            height: auto;
+            min-height: 2.2rem;
+        }
     }
 }
 
-.page-phone_bind,.page-login,.page-password{
+.page-register,.page-login,.page-password{
     .list-block{
         margin-top: 0;
         >ul{
@@ -299,13 +311,23 @@
     .item-title{
         color: #0894ec;
         text-align: center;
+        &.get_id_code{
+            width: 50%;
+            text-align: right;
+            &.loading{
+                font-size: .7rem;
+            }
+            .num{
+                color: @main_color;
+            }
+        }
     }
-    .btn_phone_bind,.btn_login,.btn_password{
+    .btn_phone_bind,.btn_login,.btn_register,.btn_password{
         width: 85%;
         margin: 1.5rem auto 1rem;
     }
 }
-.page-login{
+.page-register,.page-login{
     .login_desc{
         font-size: .6rem;
         padding-left: .75rem;
@@ -321,35 +343,35 @@
     .forget_password{
         color: #666;
         font-size: .7rem;
-        padding-right: 1rem;
+        padding: 0 1rem;
         text-decoration: underline;
     }
-    .bar-tab{
-        height: 5rem;
-        text-align: center;
-        background-color: #f7f7f7;
-        & ~ .content{
-            bottom: 5rem;
-        }
-        .login_other_desc{
-            margin: 0;
-            font-size: .7rem;
-            background-color: #f7f7f7;
-            width: 8em;
-            text-align: center;
-            position: absolute;
-            z-index: 16;
-            top: -0.5rem;
-            left: 50%;
-            margin-left: -4em;
-        }
-        .btn_login_taobao{
-            padding: 0;
-            color: #f12e2e;
-            font-size: 2rem;
-            line-height: 5rem;
-        }
-    }
+    // .bar-tab{
+    //     height: 5rem;
+    //     text-align: center;
+    //     background-color: #f7f7f7;
+    //     & ~ .content{
+    //         bottom: 5rem;
+    //     }
+    //     .login_other_desc{
+    //         margin: 0;
+    //         font-size: .7rem;
+    //         background-color: #f7f7f7;
+    //         width: 8em;
+    //         text-align: center;
+    //         position: absolute;
+    //         z-index: 16;
+    //         top: -0.5rem;
+    //         left: 50%;
+    //         margin-left: -4em;
+    //     }
+    //     .btn_login_taobao{
+    //         padding: 0;
+    //         color: #f12e2e;
+    //         font-size: 2rem;
+    //         line-height: 5rem;
+    //     }
+    // }
 }
 
 .page-password{

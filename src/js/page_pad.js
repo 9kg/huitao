@@ -37,9 +37,13 @@ base.page_pad = function(port,way){
                 var preloader_html = '<div class="infinite-scroll-preloader">'
                     +'<div class="preloader"></div>'
                 +'</div>';
-                if(!$ct.find('.preloader').length && data_len){
-                    $ct.append(preloader_html);
-                    $.attachInfiniteScroll($('.infinite-scroll'));
+                if(data_len === base.page_size){
+                    if(!$ct.find('.preloader').length){
+                        $ct.append(preloader_html);
+                        $.attachInfiniteScroll($('.infinite-scroll'));
+                    }
+                }else{
+                    $ct.find('.infinite-scroll-preloader').remove();
                 }
             }
         }
@@ -56,54 +60,120 @@ base.page_pad = function(port,way){
             };
             break;
         case "incomes":
-            obj = function(data){
-                var _html = base.html_temp('incomes',data);
-                _page_pad('#income_detail ul',_html,data.length);
+            obj = {
+                name: 'incomes',
+                id: port,
+                fn: function(data){
+                    var _html = base.html_temp('incomes',data);
+                    _page_pad('#income_detail ul',_html,data.length);
+                },
+                data: {
+                    user_id: localStorage.getItem('user_id'),
+                    bind_phone: localStorage.getItem('bind_phone'),
+                    token: localStorage.getItem('user_token')
+                }
             };
             break;
         case "withdrawals":
-            obj = function(data){
-                var _html = base.html_temp('withdrawals',data);
-                _page_pad('#withdraw_detail ul',_html,data.length);
+            obj = {
+                name: 'withdrawals',
+                id: port,
+                fn: function(data){
+                    var _html = base.html_temp('withdrawals',data);
+                    _page_pad('#withdraw_detail ul',_html,data.length);
+                },
+                data: {
+                    user_id: localStorage.getItem('user_id'),
+                    bind_phone: localStorage.getItem('bind_phone'),
+                    token: localStorage.getItem('user_token')
+                }
             };
             break;
         case "personal_info":
-            obj = function(data){
-                $('.balance_num').text(data.balance);
-                $('.user_money_total .num').text(data.total);
-                $('.user_money_predict .num').text(data.predict);
-                $('.user_money_withdrawn .num').text(data.withdrawn);
-                $('.user_money_processing .num').text(data.processing);
-                $('.receipt_num').text(data.receipt_num);
-
-                if(data.bind_phone){
-                    $('.phone_num_text').text(data.bind_phone)
-                                    .closest('.item-content').removeClass('item-link')
-                                    .removeAttr('data-link');
-                    $('.phone_num_val').val(data.bind_phone);
-                }
-                if(data.alipay_num){
-                    $('.taobao_unbind').show();
-                    $('.alipay_num_text').text(data.alipay_num);
-                    $('.alipay_num').val(data.alipay_num);
-                    $('.alipay_name').val(data.alipay_name || '');
+            var user_id = localStorage.getItem('user_id');
+            var user_token = localStorage.getItem('user_token');
+            if(!user_token){
+                if(user_id){
+                    $.toast('请先登录');
                 }else{
-                    $('.taobao_bind').show();
+                    $.toast('请先注册');
+                }
+                return;
+            }
+            $('.page-my .user_img').css('background-image','url("'+localStorage.getItem('user_head_img')+'")');
+            $('.page-my .user_name').text(localStorage.getItem('user_name'));
+            obj = {
+                name: 'personal_info',
+                id: port,
+                fn: function(data){
+                    $('.balance_num').text(data.balance);
+                    $('.page-my .user_img').css('background-image','url("'+data.head_img+'")');
+                    $('.page-my .user_name').text(data.name);
+                    $('.user_money_total .num').text(data.total);
+                    $('.user_money_predict .num').text(data.predict);
+                    $('.user_money_withdrawn .num').text(data.withdrawn);
+                    $('.user_money_processing .num').text(data.processing);
+
+                    if(data.balance){
+                        localStorage.setItem('user_money',data.balance);
+                    }
+                    if(data.head_img){
+                        localStorage.setItem('user_head_img',data.head_img);
+                    }
+                    if(data.name){
+                        localStorage.setItem('user_name',data.name);
+                    }
+
+                    if(data.bind_phone){
+                        localStorage.setItem('bind_phone', data.bind_phone)
+                    }
+                    if(data.taobao_name){
+                        localStorage.setItem('taobao_name', data.taobao_name)
+                    }
+                    if(data.bind_alipay_num){
+                        localStorage.setItem('bind_alipay_num', data.bind_alipay_num)
+                    }
+                    if(data.bind_alipay_name){
+                        localStorage.setItem('bind_alipay_name', data.bind_alipay_name)
+                    }
+                },
+                data: {
+                    user_id: localStorage.getItem('user_id'),
+                    bind_phone: localStorage.getItem('bind_phone'),
+                    token: localStorage.getItem('user_token')
                 }
             };
             break;
         case "invitations":
-            obj = function(data){
-                var _html = base.html_temp('invitations',data);
-                _page_pad('.invitation_list',_html,data.length);
+            obj = {
+                name: 'invitations',
+                id: port,
+                fn: function(data){
+                    var _html = base.html_temp('invitations',data);
+                    _page_pad('.invitation_list',_html,data.length);
+                },
+                data: {
+                    user_id: localStorage.getItem('user_id'),
+                    bind_phone: localStorage.getItem('bind_phone'),
+                    token: localStorage.getItem('user_token')
+                }
             };
             break;
         case "invitate_info":
-            obj = function(data){
-                $('.info_money .num').text(data.money);
-                $('.info_person .num').text(data.person_num);
-                var _html = base.html_temp('ranking_list',data.ranking_list,['<i class="icon icon-first"></i>', '<i class="icon icon-second"></i>', '<i class="icon icon-third"></i>']);
-                _page_pad('.ranking_list',_html,data.length);
+            obj = {
+                name: 'invitate_info',
+                id: port,
+                fn: function(data){
+                    $('.info_money .num').text(data.money || 0);
+                    $('.info_person .num').text(data.person_num || 0);
+                    var _html = base.html_temp('ranking_list',data.ranking_list,['<i class="icon icon-first"></i>', '<i class="icon icon-second"></i>', '<i class="icon icon-third"></i>']);
+                    _page_pad('.ranking_list',_html,data.ranking_list.length);
+                },
+                data: {
+                    user_id: localStorage.getItem('user_id'),
+                    bind_phone: localStorage.getItem('bind_phone'),
+                    token: localStorage.getItem('user_token')
+                }
             };
             break;
         case "goods_9_9":
@@ -154,9 +224,18 @@ base.page_pad = function(port,way){
             };
             break;
         case "messages":
-            obj = function(data){
-                var _html = base.html_temp('messages',data);
-                _page_pad('.msg_list',_html,data.length);
+            obj = {
+                name: 'messages',
+                id: port,
+                fn: function(data){
+                    var _html = base.html_temp('messages',data);
+                    _page_pad('.msg_list',_html,data.length);
+                },
+                data: {
+                    user_id: localStorage.getItem('user_id'),
+                    bind_phone: localStorage.getItem('bind_phone'),
+                    token: localStorage.getItem('user_token')
+                }
             };
             break;
         case "types":
@@ -207,6 +286,7 @@ base.page_pad = function(port,way){
             _fn(data);
             base.is_loading = false;
             if (data.length < base.page_size) {
+                $.toast('没有更多啦~',3500);
                 // 加载完毕，则注销无限加载事件，以防不必要的加载
                 $.detachInfiniteScroll($('.infinite-scroll'));
                 // 删除加载提示符

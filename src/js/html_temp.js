@@ -1,6 +1,12 @@
 base.html_temp = function (url_name, data, other_data){
     var _html = '';
-
+    var withdraw_statuss = {
+        '1': '中',
+        '2': '中',
+        '3': '失败',
+        '4': '成功',
+        '5': '失败'
+    };
     switch (url_name) {
         case 'banners':
             $.each(data, function(i, item) {
@@ -22,7 +28,7 @@ base.html_temp = function (url_name, data, other_data){
             break;
         case 'goods':
             $.each(data, function(i, item) {
-                _html += '<li data-goods_id="'+item.id+'">'
+                _html += '<li data-goods_id="'+item.id+'" data-vocher_url="'+item.vocher_url+'">'
                     +'<div class="goods_img" style="background-image: url('+base.img_best(item.icon_url)+')"></div>'
                     +'<div class="goods_info">'
                         +'<p class="goods_name">'+item.name+'</p>'
@@ -41,9 +47,9 @@ base.html_temp = function (url_name, data, other_data){
         case 'messages':
             $.each(data, function(i, item) {
                 _html += '<li>'
-                    +'<p class="date_time">2011-11-11 11:11:11</p>'
+                    +'<p class="date_time">'+item.date_time+'</p>'
                     +'<p class="msg">'
-                        +'感谢您注册惠购，50元优惠券已发放到您的账户，请查收。'
+                        +item.msg
                     +'</p>'
                 +'</li>';
             });
@@ -111,7 +117,7 @@ base.html_temp = function (url_name, data, other_data){
             break;
         case 'withdrawals':
             $.each(data, function(i, item) {
-                var price_desc = '提现'+['中','成功','失败'][+item.status];
+                var price_desc = '提现'+withdraw_statuss[+item.status];
                 _html += '<li class="item-content">'
                     +'<div class="item-media">'+item.price+'元</div>'
                     +'<div class="item-inner">'

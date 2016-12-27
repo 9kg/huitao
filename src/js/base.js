@@ -7,6 +7,7 @@ window.cfg_lz = {
         data:{},                            //页面数据缓存
         // back_url: 'http://git.bramble.wang/data/',
         back_url: 'http://item.mssoft.info/shopping/',
+        service_qq_num: '2547127766',
         apple_url: 'https://itunes.apple.com/cn/app/youbini-laite/id1149698186?mt=8',   //苹果app更新地址
         native_call_times: {},              //原生接口调用时间
         callback: {},                       //所有原生方法的回调函数的容器
@@ -160,7 +161,8 @@ window.cfg_lz = {
                     name !== "banners" && $.hideIndicator();
                     if(base.data_check(data)){
                         if(data.status !== 1){
-                            $.toast('操作失败' || data.msg);
+                            $.toast(data.msg || '操作失败');
+                            is_refresh && $.pullToRefreshDone('.pull-to-refresh-content');
                         }else{
                             base.data[id] = data.data || data;
                             fn && fn(base.data[id]);
@@ -168,6 +170,7 @@ window.cfg_lz = {
                     }
                 },
                 error: function(xhr, errorType, err){
+                    is_refresh && $.pullToRefreshDone('.pull-to-refresh-content');
                     name !== "banners" && $.hideIndicator();
                     $.toast(err);
                 }

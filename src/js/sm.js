@@ -1693,9 +1693,9 @@ Device/OS Detection
     $(document).on('click', ' .modal-overlay, .popup-overlay, .close-popup, .open-popup, .close-picker', handleClicks);
     var defaults =  $.modal.prototype.defaults  = {
         modalStack: true,
-        modalButtonOk: '<%= sure %>',
-        modalButtonCancel: '<%= cancel %>',
-        modalPreloaderTitle: '<%= loading %>',
+        modalButtonOk: '确定',
+        modalButtonCancel: '取消',
+        modalPreloaderTitle: '加载中',
         modalContainer : document.body ? document.body : 'body'
     };
 }(Zepto);

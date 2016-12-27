@@ -6,8 +6,8 @@
         <div class="page page-current page-my" id="my">
             <header class="bar bar-nav">
                 <a class="icon icon-set pull-right" href="#setting"></a>
-                <div class="user_img" style="background-image: url('https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=214931719,1608091472&fm=116&gp=0.jpg')"></div>
-                <div class="user_name">搜狗拼音</div>
+                <div class="user_img"></div>
+                <div class="user_name"></div>
             </header>
             @@include('./_temp/footer.html',{"page":"my"})
             <div class="content pull-to-refresh-content">
@@ -20,7 +20,7 @@
                         <label class="desc">可用余额（元）</label>
                         <p class="balance_num">--</p>
                     </div>
-                    <a class="button button-link button-nav button-danger pull-right" href="#withdraw">
+                    <a class="button button-link button-nav button-danger pull-right" data-link="#withdraw" data-require="login">
                         立即提现
                     </a>
                 </div>
@@ -44,20 +44,19 @@
                 </div>
                 <div class="list-block">
                     <ul>
-                        <li class="item-content item-link" data-link="#money_detail">
+                        <li class="item-content item-link" data-link="#money_detail" data-require="login" data-require="login">
                             <div class="item-media"><i class="icon icon-detail"></i></div>
                             <div class="item-inner">
                                 <div class="item-title">资金明细</div>
                             </div>
                         </li>
-                        <li class="item-content item-link link_orders">
+                        <li class="item-content item-link link_orders" data-link_native="orders" data-require="login">
                             <div class="item-media"><i class="icon icon-taobao"></i></div>
                             <div class="item-inner">
                                 <div class="item-title">我的淘宝订单</div>
-                                <div class="item-after"><span class="receipt_num num">__</span>个待收货</div>
                             </div>
                         </li>
-                        <li class="item-content item-link" data-link="./share.html#invitation_details">
+                        <li class="item-content item-link" data-link="./share.html#invitation_details" data-require="login">
                             <div class="item-media"><i class="icon icon-invitation"></i></div>
                             <div class="item-inner">
                                 <div class="item-title">我的邀请记录</div>
@@ -152,7 +151,7 @@
                     <ul class="select_money">
                         <li class="item-content">
                             <div class="radio_cnt">
-                                <input type="radio" name="withdraw_money" checked>
+                                <input type="radio" value="10" name="withdraw_money" checked>
                                 <span class="radio_seen"></span>
                             </div>
                             <div class="item-inner">
@@ -164,7 +163,7 @@
                         </li>
                         <li class="item-content">
                             <div class="radio_cnt">
-                                <input type="radio" name="withdraw_money">
+                                <input type="radio" value="30" name="withdraw_money">
                                 <span class="radio_seen"></span>
                             </div>
                             <div class="item-inner">
@@ -174,7 +173,7 @@
                         </li>
                         <li class="item-content">
                             <div class="radio_cnt">
-                                <input type="radio" name="withdraw_money">
+                                <input type="radio" value="50" name="withdraw_money">
                                 <span class="radio_seen"></span>
                             </div>
                             <div class="item-inner">
@@ -184,7 +183,7 @@
                         </li>
                         <li class="item-content">
                             <div class="radio_cnt">
-                                <input type="radio" name="withdraw_money">
+                                <input type="radio" value="100" name="withdraw_money">
                                 <span class="radio_seen"></span>
                             </div>
                             <div class="item-inner">
@@ -195,7 +194,7 @@
                     </ul>
                 </div>
                 <p class="withdraw_desc">
-                    实际到账9.5元（当前可提现余额0.01元）
+                    实际到账<span class="num">9.5</span>元（当前可提现余额<span class="user_money">--</span>元）
                 </p>
                 <a href="#" class="button button-big button-fill button-danger btn_withdraw">
                     提交
@@ -204,7 +203,7 @@
         </div>
         <!-- 设置密码页 -->
         <div class="page page-password" id="password">
-            @@include('./_temp/header.html',{"title":"设置密码"})
+            @@include('./_temp/header.html',{"title":"修改密码"})
             <div class="content">
                 <div class="list-block">
                     <ul>
@@ -213,7 +212,7 @@
                                 <div class="item-media">已绑定手机号</div>
                                 <div class="item-inner">
                                     <div class="item-input">
-                                        <input class="phone_num_val" readonly type="text" placeholder="请输入手机号">
+                                        <input class="phone_num_val input_phone" readonly type="text" placeholder="请输入手机号">
                                     </div>
                                 </div>
                             </div>
@@ -222,9 +221,9 @@
                             <div class="item-content">
                                 <div class="item-inner">
                                     <div class="item-input">
-                                        <input type="text" placeholder="请输入验证码">
+                                        <input class="input_id_code" type="text" placeholder="请输入验证码">
                                     </div>
-                                    <div class="item-title label">获取验证码</div>
+                                    <div class="item-title label get_id_code">获取验证码</div>
                                 </div>
                             </div>
                         </li>
@@ -232,7 +231,7 @@
                             <div class="item-content">
                                 <div class="item-inner">
                                     <div class="item-input">
-                                        <input type="text" placeholder="请输入您的密码">
+                                        <input class="input_password" type="password" placeholder="请输入新的密码">
                                     </div>
                                 </div>
                             </div>
@@ -250,27 +249,32 @@
             <div class="content">
                 <div class="list-block">
                     <ul>
-                        <li class="item-content item-link" data-link="#phone_bind">
+                        <li class="item-content item-link user_register" data-link="#register">
                             <div class="item-inner">
-                                <div class="item-title">绑定手机号</div>
+                                <div class="item-title">注册</div>
+                            </div>
+                        </li>
+                        <li class="item-content item-link" data-link="#login">
+                            <div class="item-inner">
+                                <div class="item-title">登录</div>
                                 <div class="item-after phone_num_text"></div>
                             </div>
                         </li>
                         <li class="item-content item-link taobao_bind">
                             <div class="item-inner">
-                                <div class="item-title">绑定支付宝</div>
-                                <div class="item-after">请绑定支付宝</div>
+                                <div class="item-title">绑定淘宝</div>
+                                <div class="item-after">请绑定淘宝</div>
                             </div>
                         </li>
                         <li class="item-content item-link taobao_unbind">
                             <div class="item-inner">
                                 <div class="item-title warning">解除绑定</div>
-                                <div class="item-after">支付宝账号(<span class="alipay_num_text"></span>)</div>
+                                <div class="item-after">淘宝账号(<span class="alipay_num_text"></span>)</div>
                             </div>
                         </li>
-                        <li class="item-content item-link" data-link="#password">
+                        <li class="item-content item-link" data-link="#password" data-require="login">
                             <div class="item-inner">
-                                <div class="item-title">设置密码</div>
+                                <div class="item-title">修改密码</div>
                                 <div class="item-after">※※※※※※</div>
                             </div>
                         </li>
@@ -279,7 +283,7 @@
             </div>
         </div>
         <!-- 手机号绑定页 -->
-        <div class="page page-phone_bind" id="phone_bind">
+        <!-- <div class="page page-phone_bind" id="phone_bind">
             @@include('./_temp/header.html',{"title":"绑定手机号"})
             <div class="content">
                 <div class="list-block">
@@ -299,7 +303,7 @@
                                     <div class="item-input">
                                         <input type="text" placeholder="请输入验证码">
                                     </div>
-                                    <div class="item-title label">获取验证码</div>
+                                    <div class="item-title label get_id_code">获取验证码</div>
                                 </div>
                             </div>
                         </li>
@@ -309,14 +313,14 @@
                     保存
                 </a>
             </div>
-        </div>
-        <!-- 登录页 -->
-        <div class="page page-login" id="login">
-            @@include('./_temp/header.html',{"title":"登录"})
-            <nav class="bar bar-tab">
+        </div> -->
+        <!-- 注册页页 -->
+        <div class="page page-register" id="register">
+            @@include('./_temp/header.html',{"title":"注册"})
+            <!-- <nav class="bar bar-tab">
                 <p class="login_other_desc">其它方式登录</p>
                 <a class="icon icon-taobao btn_login_taobao"></a>
-            </nav>
+            </nav> -->
             <div class="content">
                 <div class="list-block">
                     <ul>
@@ -325,7 +329,7 @@
                                 <div class="item-media"><i class="icon icon-phone"></i></div>
                                 <div class="item-inner">
                                     <div class="item-input">
-                                        <input type="text" placeholder="请输入手机号">
+                                        <input type="text" placeholder="请输入手机号" class="input_phone">
                                     </div>
                                 </div>
                             </div>
@@ -335,9 +339,9 @@
                                 <div class="item-media"><i class="icon icon-id_code"></i></div>
                                 <div class="item-inner">
                                     <div class="item-input">
-                                        <input type="text" placeholder="请输入验证码">
+                                        <input type="text" placeholder="请输入验证码" class="input_id_code">
                                     </div>
-                                    <div class="item-title label">获取验证码</div>
+                                    <div class="item-title label get_id_code">获取验证码</div>
                                 </div>
                             </div>
                         </li>
@@ -346,7 +350,7 @@
                                 <div class="item-media"><i class="icon icon-password"></i></div>
                                 <div class="item-inner">
                                     <div class="item-input">
-                                        <input type="text" placeholder="请输入密码">
+                                        <input type="password" placeholder="请设置您的密码" class="input_password">
                                     </div>
                                 </div>
                             </div>
@@ -354,8 +358,41 @@
                     </ul>
                 </div>
                 <p class="login_desc">
-                    点击登录后即表示同意<span class="agreement_name">《<a href="#agreement">惠购购物注册协议</a>》</span>
+                    点击注册后即表示同意<span class="agreement_name">《<a href="#agreement">惠购购物注册协议</a>》</span>
                 </p>
+                <a href="#" class="button button-big button-fill button-danger btn_register">
+                    注册
+                </a>
+            </div>
+        </div>
+        <!-- 登录页 -->
+        <div class="page page-login" id="login">
+            @@include('./_temp/header.html',{"title":"登录"})
+            <div class="content">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-phone"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <input type="text" placeholder="请输入手机号" class="phone_num_val input_phone">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-password"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <input type="password" placeholder="请输入您的密码" class="input_password">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
                 <a href="#" class="button button-big button-fill button-danger btn_login">
                     登录
                 </a>
