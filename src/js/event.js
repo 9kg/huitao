@@ -22,7 +22,13 @@ $(function() {
         var _require = $(this).data('require');
         if(_require === 'login'){
             if(localStorage.getItem('user_token')){
-                base.native(_link);
+                if(+localStorage.getItem('bind_taobao')){
+                    base.native(_link);
+                }else{
+                    bind_taobao(function(){
+                        base.native(_link);
+                    });
+                }
             }else{
                 if(localStorage.getItem('user_id')){
                     $.router.load('./my.html#login');
@@ -43,14 +49,73 @@ $(function() {
         // 点击分享弹出框取消按钮关闭弹框
         $('.popup-overlay').remove();
         $.closeModal();
+    }).on('click', '.defer_login', function(e) {
+        setTimeout(function(){
+            $.router.load('./my.html#login');
+        },800);
+        $.router.back();
+    }).on('click', '.defer_register', function(e) {
+        setTimeout(function(){
+            $.router.load('./my.html#register');
+        },800);
+        $.router.back();
     }).on('click', '.btn_invitate', function(e) {
         // 点击按钮弹出分享框
         $.popup(base.html_temp('share'));
-    }).on('click', '.goods_list .icon-share1,[data-share]', function(e) {
+    }).on('click', '.goods_list .icon-share1', function(e) {
         // 点击对应元素弹出分享框
         var _link = $(this).data('link');
+        var $li = $(this).closest('li');
+        base.share_detail = {
+            goods_id: $li.data('goods_id'),
+            price: $li.find('.price_num').text(),
+            voucher_num: $li.find('.voucher_num').text(),
+            title: $li.find('.goods_name').text(),
+            img: $li.data('goods_img')
+        };
         $.popup(base.html_temp('share'));
         e.stopPropagation();
+
+    }).on('click', '.input_share_code', function(e) {
+        $.prompt('请输入邀请码', function(fid){
+            if(!fid){
+                $.toast('邀请码不能为空');
+                return false;
+            }
+            var obj = JSON.stringify({
+                sfuid: fid,
+                user_id: localStorage.getItem('user_id')
+            });
+            $.showIndicator();
+            $.ajax({
+                url: base.back_url+'bindMasters',
+                type: 'POST',
+                dataType: 'json',
+                data: obj,
+                success: function(data){
+                    $.hideIndicator();
+                    if(base.data_check(data)){
+                        if(data.status !== 1){
+                            $.toast(data.msg || '操作失败');
+                        }else{
+                            $('.input_share_code').removeClass('show');
+                             $(".content").scroller('refresh');
+                            $.toast('操作成功');
+                        }
+                    }
+                },
+                error: function(xhr, errorType, err){
+                    $.hideIndicator();
+                    $.toast(err);
+                }
+            });
+        });
+    }).on('click', '[data-share]', function(e) {
+        // 点击对应元素弹出分享框
+        var _link = $(this).data('link');
+
+        base.share_detail = false;
+        $.popup(base.html_temp('share'));
     }).on('click', '.types_list li:not(.icon_ct)', function() {
         // 点击大类进入对应大类的商品页面，调整大类标题
         var $page_type_goods = $('.page-type_goods');
@@ -95,6 +160,13 @@ $(function() {
             $('.content').scrollTop(0);
             base.page_pad('goods_9_9', 'search');
         }
+    }).on('longTap','.user_share_code',function(){
+        base.native('copy',{
+            content: localStorage.getItem('user_id'),
+            callback: function(){
+                $.toast('邀请码复制成功');
+            }
+        });
     });
 
     // 下拉刷新
@@ -151,7 +223,27 @@ $(function() {
         base.native('service',{type:'qq',qq_num: base.service_qq_num});
     }).on('click','.share_item',function(){
         var _type = $(this).data('type');
-        base.native('share', {type: _type});
+        var obj;
+        if(base.share_detail){
+            obj = {
+                type: _type,
+                link: base.share_link + base.share_detail.goods_id + '&user_id=' + localStorage.getItem('user_id'),
+                title: '现售价￥'+base.share_detail.price+'【领券减'+base.share_detail.voucher_num+'元】',
+                content: '惠淘APP —— '+base.share_detail.title,
+                img: base.share_detail.img
+            };
+        }else{
+            obj = {
+                type: _type,
+                link: base.invite_link + localStorage.getItem('user_id'),
+                title: '惠淘APP —— 独家优惠券，限量抢购 ',
+                content: '我一直用惠淘APP，海量淘宝商品领取优惠券购买，还能分享给好友领好友提成！',
+                img: base.invite_img
+            };
+        }
+        base.native('share', obj);
+        $('.popup-overlay').remove();
+        $.closeModal();
     }).on('click','.goods_list li[data-goods_id]',function(e){
         if($(e.target).is('.icon-share1')) return;
 
@@ -161,7 +253,13 @@ $(function() {
         var is_register = !!localStorage.getItem('user_id');
         var user_token = localStorage.getItem('user_token');
         if(user_token){
-            base.native('goods_detail', {goods_id: _goods_id,vocher_url:_vocher_url});
+            if(+localStorage.getItem('bind_taobao')){
+                base.native('goods_detail', {goods_id: _goods_id,vocher_url:_vocher_url});
+            }else{
+                bind_taobao(function(){
+                    base.native('goods_detail', {goods_id: _goods_id,vocher_url:_vocher_url});
+                });
+            }
         }else{
             $.router.load('./my.html#'+(is_register ? 'login' : 'register'));
         }
@@ -173,6 +271,7 @@ $(function() {
         '50': '49.5',
         '100': '99.5'
     };
+
     //注册登录提现获取验证码
     $(document).on('click','.get_id_code',function(){
         if($(this).is('.loading')){
@@ -187,7 +286,8 @@ $(function() {
         $.showIndicator();
         disable_get_id_code($(this));
         var data = JSON.stringify({
-            phone: phone
+            phone: phone,
+            type: 1
         });
         $.ajax({
             url: base.back_url+'id_code',
@@ -259,11 +359,10 @@ $(function() {
             $.toast('验证码格式错误');
             return;
         }
-        // base.native('platform',function(data_platform){
+        base.native('platform',function(data_platform){
             var bind_phone = data.phone;
-            $.extend(data,{type:1,"deviceW":720,"wifiBid":"e8:fc:af:a3:ee:fc","appVer":"1.0-debug","onlineType":"","appBid":"com.shhb.gd.shop","imei":"865370025289241","deviceVer":"1","deviceModel":"android","ip":"192.168.1.119","appName":"惠淘","simType":"N/A","deviceName":"Xiaomi","deviceH":1280,"address":"中国上海市上海市普陀区曹杨路450-256-2512号绿地和创大厦","bdid":"","wifiSid":"houbu1","jaibreak":""});
 
-            data = JSON.stringify($.extend(data));
+            data = JSON.stringify($.extend(data_platform,data));
             $.showIndicator();
             $.ajax({
                 url: base.back_url+'login',
@@ -280,6 +379,7 @@ $(function() {
                             localStorage.setItem('user_id',resp.user_id);
                             localStorage.setItem('bind_phone',bind_phone);
                             $('.page-setting .phone_num_val').val(bind_phone);
+                            $('.user_register').removeClass('show');
                             $('.phone_num_text').text(bind_phone)
                                             .closest('.item-content').removeClass('item-link')
                                             .removeAttr('data-link')
@@ -288,7 +388,12 @@ $(function() {
                             base.native('set_user_id',{user_id:resp.user_id});
                             setTimeout(function(){
                                 $.router.back();
+                                setTimeout(function(){
+                                    $('.user_share_code').html('我的邀请码：<span class="share_code_num">'+resp.user_id+'</span><span class="share_code_desc">(长按复制)</span>');
+                                },800);
                             },2000);
+
+                            $.pullToRefreshTrigger('.page-my .pull-to-refresh-content');
                         }
                     }
                 },
@@ -297,7 +402,7 @@ $(function() {
                     $.toast(err);
                 }
             });
-        // });
+        });
 
     }
 
@@ -347,7 +452,7 @@ $(function() {
         });
     }
     // 绑定淘宝
-    function bind_taobao(){
+    function bind_taobao(fn){
         if(!localStorage.getItem('user_token')){
             if(localStorage.getItem('user_id')){
                 $.router.load('./my.html#login');
@@ -359,27 +464,17 @@ $(function() {
                 if(data.status !== 1){
                     $.toast(data.msg || '授权失败');
                 }else{
-                    localStorage.setItem('bind_taobao',1);
-                    localStorage.setItem('user_head_img',data.avatarUrl);
-                    localStorage.setItem('user_name',data.nick);
-
-                    $('.taobao_unbind').addClass('show');
-                    $('.taobao_bind').removeClass('show');
-                    $('.alipay_num_text').text(data.nick);
-
                     var taobao_data = JSON.stringify({
-                        uuid: data.uuid,
-                        bdid: data.bdid,
-                        idfa: data.idfa,
-                        deviceVer: data.deviceVer,
-                        imei: data.imei,
-                        user_id: localStorage.getItem('user_id'),
-                        taobao_id: data.openId,
-                        user_name: data.nick,
-                        user_head_img: data.avatarUrl
+                        uuid: data.uuid || '',
+                        bdid: data.bdid || '',
+                        idfa: data.idfa || '',
+                        deviceVer: data.deviceVer || '',
+                        imei: data.imei || '',
+                        user_id: localStorage.getItem('user_id') || '',
+                        taobao_id: data.openId || '',
+                        user_name: data.nick || '',
+                        user_head_img: data.avatarUrl || ''
                     });
-
-                    $.alert(taobao_data);
 
                     $.showIndicator();
                     $.ajax({
@@ -388,10 +483,18 @@ $(function() {
                         dataType: 'json',
                         data: taobao_data,
                         success: function(resp){
-                            $.alert(JSON.stringify(resp));
-
-                            $.toast('授权成功');
+                            if(resp.status === 1){
+                                $.toast('授权成功');
+                                localStorage.setItem('bind_taobao',1);
+                                localStorage.setItem('user_head_img',data.avatarUrl);
+                                localStorage.setItem('user_name',data.nick);
+                                $('.taobao_unbind').addClass('show');
+                                $('.taobao_bind').removeClass('show');
+                                $('.alipay_num_text').text(data.nick);
+                                fn && fn();
+                            }
                             $.hideIndicator();
+                            $.pullToRefreshTrigger('.page-my .pull-to-refresh-content');
                         },
                         error: function(xhr, errorType, err){
                             $.hideIndicator();
@@ -408,14 +511,6 @@ $(function() {
             if(data.status !== 1){
                 $.toast(data.msg || '解除授权失败');
             }else{
-                localStorage.setItem('bind_taobao',0);
-                localStorage.removeItem('user_head_img');
-                localStorage.removeItem('user_name');
-
-
-                $('.taobao_unbind').removeClass('show');
-                $('.taobao_bind').addClass('show');
-
                 var taobao_data = JSON.stringify({
                     user_id: localStorage.getItem('user_id')
                 });
@@ -427,9 +522,18 @@ $(function() {
                     dataType: 'json',
                     data: taobao_data,
                     success: function(resp){
-                        $.alert(JSON.stringify(resp));
                         $.toast('解除授权成功');
                         $.hideIndicator();
+
+                        localStorage.setItem('bind_taobao',0);
+                        localStorage.removeItem('user_head_img');
+                        localStorage.removeItem('user_name');
+                        $('.taobao_unbind').removeClass('show');
+                        $('.taobao_bind').addClass('show');
+
+                        $.pullToRefreshTrigger('.page-my .pull-to-refresh-content');
+
+                        fn & fn();
                     },
                     error: function(xhr, errorType, err){
                         $.hideIndicator();

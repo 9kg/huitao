@@ -28,7 +28,7 @@ base.html_temp = function (url_name, data, other_data){
             break;
         case 'goods':
             $.each(data, function(i, item) {
-                _html += '<li data-goods_id="'+item.id+'" data-vocher_url="'+item.vocher_url+'">'
+                _html += '<li data-goods_id="'+item.id+'"  data-goods_img="'+item.icon_url+'" data-vocher_url="'+item.vocher_url+'">'
                     +'<div class="goods_img" style="background-image: url('+base.img_best(item.icon_url)+')"></div>'
                     +'<div class="goods_info">'
                         +'<p class="goods_name">'+item.name+'</p>'
@@ -75,11 +75,13 @@ base.html_temp = function (url_name, data, other_data){
                 _html += '<li class="friend">'
                     +'<div class="friend_info">'
                         +'<div class="friend_img" style="background-image: url(\''+item.head_img+'\')"></div>'
-                        +'<p class="friend_name">'+item.name+'</p>'
+                        +'<p class="friend_name">'+item.nickname+'</p>'
                     +'</div>'
                     +'<div class="list-block">'
                         +'<ul>'
-                            + base.html_temp('money_friend',item.data)
+                            + (item.data.length ?
+                                base.html_temp('money_friend',item.data)
+                                : '<li class="no_income"><i class="icon icon-no_income"></i></li>')
                         +'</ul>'
                     +'</div>'
                 +'</li>';

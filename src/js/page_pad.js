@@ -40,7 +40,7 @@ base.page_pad = function(port,way){
                 if(data_len === base.page_size){
                     if(!$ct.find('.preloader').length){
                         $ct.append(preloader_html);
-                        $.attachInfiniteScroll($('.infinite-scroll'));
+                        $.attachInfiniteScroll($('.page-current .infinite-scroll'));
                     }
                 }else{
                     $ct.find('.infinite-scroll-preloader').remove();
@@ -98,6 +98,7 @@ base.page_pad = function(port,way){
                 }else{
                     $.toast('请先注册');
                 }
+                $.pullToRefreshDone('.pull-to-refresh-content');
                 return;
             }
             $('.page-my .user_img').css('background-image','url("'+localStorage.getItem('user_head_img')+'")');
@@ -108,7 +109,7 @@ base.page_pad = function(port,way){
                 fn: function(data){
                     $('.balance_num').text(data.balance);
                     $('.page-my .user_img').css('background-image','url("'+data.head_img+'")');
-                    $('.page-my .user_name').text(data.name);
+                    $('.page-my .user_name').text(data.nickname);
                     $('.user_money_total .num').text(data.total);
                     $('.user_money_predict .num').text(data.predict);
                     $('.user_money_withdrawn .num').text(data.withdrawn);
@@ -120,8 +121,8 @@ base.page_pad = function(port,way){
                     if(data.head_img){
                         localStorage.setItem('user_head_img',data.head_img);
                     }
-                    if(data.name){
-                        localStorage.setItem('user_name',data.name);
+                    if(data.nickname){
+                        localStorage.setItem('user_name',data.nickname);
                     }
 
                     if(data.bind_phone){
@@ -135,6 +136,10 @@ base.page_pad = function(port,way){
                     }
                     if(data.bind_alipay_name){
                         localStorage.setItem('bind_alipay_name', data.bind_alipay_name)
+                    }
+                    if(!data.sfuid){
+                        $('.input_share_code').addClass('show');
+                        $.toast('',1,'hack2ios5');
                     }
                 },
                 data: {
@@ -160,12 +165,14 @@ base.page_pad = function(port,way){
             };
             break;
         case "invitate_info":
+            var user_id = localStorage.getItem('user_id');
             obj = {
                 name: 'invitate_info',
                 id: port,
                 fn: function(data){
                     $('.info_money .num').text(data.money || 0);
                     $('.info_person .num').text(data.person_num || 0);
+                    user_id ? $('.share_code_num').text(user_id) : $('.user_share_code').html('我的邀请码：<a href="./my.html#login" class="login_pre">请先登录</a>');
                     var _html = base.html_temp('ranking_list',data.ranking_list,['<i class="icon icon-first"></i>', '<i class="icon icon-second"></i>', '<i class="icon icon-third"></i>']);
                     _page_pad('.ranking_list',_html,data.ranking_list.length);
                 },
@@ -288,7 +295,7 @@ base.page_pad = function(port,way){
             if (data.length < base.page_size) {
                 $.toast('没有更多啦~',3500);
                 // 加载完毕，则注销无限加载事件，以防不必要的加载
-                $.detachInfiniteScroll($('.infinite-scroll'));
+                $.detachInfiniteScroll($('.page-current .infinite-scroll'));
                 // 删除加载提示符
                 $('.infinite-scroll-preloader').remove();
             }

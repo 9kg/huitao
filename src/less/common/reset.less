@@ -10,8 +10,16 @@ textarea {
 ::-webkit-scrollbar {
     display: none;
 }
+
 .page{
     background-color: #f7f7f7;
+}
+.hack2ios5{
+    display: none;
+}
+.modal-text{
+    word-wrap: break-word;
+    word-break: break-word;
 }
 .bar-nav{
     height: 3.2rem;
@@ -41,6 +49,16 @@ textarea {
 .bar-tab{
     background-color: rgba(246, 241, 240, .95);
     z-index: 16;
+
+    display: flex;
+    .tab-item{
+        flex-grow: 1;
+        flex-shrink: 1;
+        line-height: 1.5rem;
+        .tab-label{
+            line-height: .8rem;
+        }
+    }
     & ~ .content {
       bottom: 0;
       padding-bottom: 2.5rem;
@@ -114,8 +132,8 @@ a{
             background-size: cover;
         }
         .goods_info{
-            padding-left: 1rem;
-            padding-right: 2rem;
+            padding-left: .4rem;
+            padding-right: 1.6rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -136,11 +154,13 @@ a{
                 margin: 0;
                 font-size: .6rem;
                 color: #5f646e;
+                margin-bottom: 1rem;
             }
             .goods_price_now{
                 margin: 0;
                 color: @main_color;
                 font-size: .6rem;
+                line-height: .6rem;
                 .price_num{
                     font-size: 1.2rem;
 

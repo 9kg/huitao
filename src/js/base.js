@@ -2,12 +2,16 @@
 window.cfg_lz = {
     native_timeout: 1200                    //原生接口调用延迟
 };
+
 (function(){
     window.base = {
         data:{},                            //页面数据缓存
         // back_url: 'http://git.bramble.wang/data/',
-        back_url: 'http://item.mssoft.info/shopping/',
-        service_qq_num: '2547127766',
+        back_url: 'http://item.mssoft.info/shopping/',                                          //后台host
+        share_link: 'http://item.mssoft.info/shoppingView/static/share/share.html?goods_id=',   //商品分享链接
+        invite_link: 'http://item.mssoft.info/shoppingView/static/share/invite.html?uid=',      //分享链接
+        invite_img: 'http://item.mssoft.info/shoppingView/static/share/img/icon.jpg',           //分享的图
+        service_qq_num: '2547127766',                                                           //qq服务号
         apple_url: 'https://itunes.apple.com/cn/app/youbini-laite/id1149698186?mt=8',   //苹果app更新地址
         native_call_times: {},              //原生接口调用时间
         callback: {},                       //所有原生方法的回调函数的容器
@@ -20,9 +24,9 @@ window.cfg_lz = {
             goods: 1
         },
         img_best: function(url){
-            var ext = '_80x80.jpg';
+            var ext = '_200x200.jpg';
             if(window.devicePixelRatio === 3){
-                ext = '_120x120.jpg';
+                ext = '_300x300.jpg';
             }
             return url + ext;
         },
