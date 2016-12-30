@@ -3,6 +3,11 @@ $(function() {
         // page路由跳转
         var _link = $(this).data('link');
         var _require = $(this).data('require');
+
+        if(_link === '#msg'){
+            // hack4apple5
+            $('.page-msg .pull-to-refresh-layer').css('visibility','hidden');
+        }
         if(_require === 'login'){
             if(localStorage.getItem('user_token')){
                 $.router.load(_link);
@@ -119,8 +124,13 @@ $(function() {
     }).on('click', '.types_list li:not(.icon_ct)', function() {
         // 点击大类进入对应大类的商品页面，调整大类标题
         var $page_type_goods = $('.page-type_goods');
-        $page_type_goods.data('id', $(this).data('type_id'));
+        $page_type_goods.find('.goods_list').html('<li class="icon_ct">'
+                                +'<span class="icon icon-smile"></span>'
+                            +'</li>');
+        $page_type_goods.attr('data-id', $(this).data('type_id'));
         $page_type_goods.find('.title').html($('.type_title', this).text());
+        // hack2apple5 苹果5的下拉刷新提示符闪烁
+        $('.page-type_goods .pull-to-refresh-layer').css('visibility','hidden');
         $.router.load('#type_goods');
     }).on('show', '#tab_types', function(e) {
         // 首页 商品分类 tab项显示时  加载对应的页面
@@ -277,11 +287,13 @@ $(function() {
         if($(this).is('.loading')){
             return;
         }
-        $(this).addClass('loading');
+
         var phone = $('.page-current .input_phone').val();
         if(!phone){
             $.toast('请输入手机号！');
             return;
+        }else{
+            $(this).addClass('loading');
         }
         $.showIndicator();
         disable_get_id_code($(this));
@@ -483,7 +495,9 @@ $(function() {
                         dataType: 'json',
                         data: taobao_data,
                         success: function(resp){
-                            if(resp.status === 1){
+                            if(resp.status !== 1){
+                                $.toast(resp.msg && '授权失败');
+                            }else{
                                 $.toast('授权成功');
                                 localStorage.setItem('bind_taobao',1);
                                 localStorage.setItem('user_head_img',data.avatarUrl);

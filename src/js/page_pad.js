@@ -139,7 +139,7 @@ base.page_pad = function(port,way){
                     }
                     if(!data.sfuid){
                         $('.input_share_code').addClass('show');
-                        $.toast('',1,'hack2ios5');
+                        $.toast('',1,'hack4apple5');
                     }
                 },
                 data: {
@@ -200,6 +200,7 @@ base.page_pad = function(port,way){
             };
             break;
         case "type_goods":
+            $('.page-type_goods .pull-to-refresh-layer').css('visibility','visible');
             obj = {
                 name: 'goods',
                 id: 'type_goods',
@@ -231,6 +232,7 @@ base.page_pad = function(port,way){
             };
             break;
         case "messages":
+            $('.page-msg .pull-to-refresh-layer').css('visibility','visible');
             obj = {
                 name: 'messages',
                 id: port,

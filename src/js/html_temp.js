@@ -11,7 +11,7 @@ base.html_temp = function (url_name, data, other_data){
         case 'banners':
             $.each(data, function(i, item) {
                 _html += '<div class="swiper-slide" data-link_to="' + item.link + '">' +
-                    '<div class="banner_item" style="background-image:' + 'url(' + item.icon_url + ');"></div>' +
+                    '<div class="banner_item" style="background-image:' + 'url(' + base.img_best(item.icon_url) + ');"></div>' +
                     '</div>^_^';
             });
             break;
